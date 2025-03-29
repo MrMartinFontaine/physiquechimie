@@ -1,0 +1,31 @@
+lecture 21 r0    # lecture de l'indice i de debut de serie
+lecture *r0 r3   # initialisation du maximum temporaire, x
+lecture 19 r2    # lecture de la constante 1
+lecture 22 r1    # lecture de l'indice de fin de serie, y <--- BOUCLE -\
+add r2 r0        # | i = i + 1                                      |
+add r2 r1        # | y = y + 1   (on pourrait simplifier)           |
+inverse r1       # | y = - y                                        |      
+add r0 r1        # | y = i + y                                      |
+sautpos r1 17     # \--> si (i - fin - 1) >= 0 fin de boucle --------/
+noop             # Sinon, entree dans le CORPS DE LA BOUCLE --------\
+lecture *r0 r4   # chargement de la donnee courante z = s_i         |     
+inverse r4       # | z = - z                                        |
+add r3 r4        # | z = x + z                                      |
+sautpos r4 4      # \--> if (x - s_i) >= 0, retour debut de boucle --|
+lecture *r0 r3   # x = s_i, nouveau maximum                         |
+saut 4           # retour debut de boucle --------------------------/ 
+ecriture r3 31   # ecriture de la valeur de sortie (MODIFIER)
+stop             # fin du programme
+1                # constante
+stop             # /--PARAMETRES DU PROGRAMME ----------------\
+23               # | adresse de debut de la serie de donnees  |
+29               # | adresse de fin de la serie de donnees    |
+34               # | Serie de donnees                         |
+-23              # | .                                        |
+-40              # | .                                        |
+45               # | .                                        |
+1                # | .                                        |
+0                # | .                                        |
+19               # | .                                        |
+stop             # \------------------------------------------/
+?                # max (la valeur de sortie)

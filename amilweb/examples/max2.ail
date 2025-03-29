@@ -1,0 +1,14 @@
+saut 4
+10
+15 
+lecture 2 r0
+lecture 3 r1 
+inverse r0
+add r0 r1
+sautpos r1 11
+lecture 2 r0
+saut 12
+lecture 3 r0
+ecriture r0 14
+stop
+? (valeur de sortie)

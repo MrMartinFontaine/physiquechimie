@@ -1,0 +1,17 @@
+lecture 15 r0 # si a >= b 
+lecture 16 r1
+inverse r1
+add r0 r1  # r1 vaut a - b
+sautpos r1 9
+lecture 16 r0 # sinon ecrire b a l'adresse 17
+ecriture r0 17
+saut 11
+lecture 15 r0 # alors ecrire b a l'adresse 17
+ecriture r0 17
+stop
+?
+?
+?
+45 # a
+23 # b
+?  # <-- valeur de sortie

@@ -1,0 +1,15 @@
+saut 4
+-30
+-3
+lecture 2 r0
+lecture 3 r1
+mult r0 r1
+mult 3 r0
+ecriture r0 13
+ecriture r1 14
+et r0 r1
+et -90 r0
+stop
+?
+?
+

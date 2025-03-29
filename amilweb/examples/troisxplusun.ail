@@ -1,0 +1,11 @@
+lecture 10 r0  # Début du programme, le registre 0 vaut x (la donnée à l'adresse 10)
+valeur 3 r1
+mult r1 r0      # le registre 0 vaut 3*x
+valeur 1 r1
+add r1 r0       # le registre 0 vaut 3*x + 1
+ecriture r0 11 # la donnée à l'adresse 11 prend la valeur 3*x + 1
+stop
+?
+?
+23             # <- donnée
+?              # <- résultat

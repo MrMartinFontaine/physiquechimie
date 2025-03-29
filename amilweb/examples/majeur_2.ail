@@ -1,0 +1,16 @@
+lecture 15 r0 # si age >= 18 
+valeur -18 r1
+add r0 r1  # r1 vaut age - 18
+sautpos r1 8
+valeur 0 r0 # sinon ecrire 0 a l'adresse 16
+ecriture r0 16
+saut 10
+valeur 1 r0 # alors ecrire 1 a l'adresse 16
+ecriture r0 16
+stop
+?
+?
+?
+?
+20 # a
+?  # <-- valeur de sortie

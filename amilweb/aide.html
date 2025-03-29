@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<title>Amil : Mode d'emploi utilisateur</title>
+<meta name="description" content=" Le langage assembleur amil repose sur l&#39;id&#233;e d&#39;utiliser les num&#233;ros de lignes d&#39;un programme assembleur (un simple fichier texte) comme num&#233;ros (...) " />
+<link rel="canonical" href="http://www-lipn.univ-paris13.fr/~boudes/spip.php?article49" /><meta charset="utf-8" />
+
+
+<meta name="generator" content="SPIP 2.1.9 [17500]" />
+<style type="text/css">
+table { margin-right: auto; margin-left: auto; margin-bottom: 1em; border-collapse: collapse; border-spacing: 0; line-height: normal; }
+table caption { caption-side: top; /* bottom pas pris en compte par IE */ text-align: center; margin-right: auto; margin-left: auto; font-weight: bold; }
+table tr.row_first { background: #FFC; }
+table tr.row_odd { background: #EEE; }
+table tr.row_even { background: #DDD; }
+table th, table td { padding: 0.20em 0.40em; text-align: left; border: 1px solid; }
+table th { vertical-align: bottom; font-weight: bold; }
+table td { vertical-align: top; }</style>
+</head>
+<body>
+
+<table >
+<caption>Les instructions amil</caption>
+<thead><tr class='row_first'><th scope='col'>mnémonique</th><th scope='col'>detail</th><th scope='col'>action</th></tr></thead>
+<tbody>
+<tr class='row_even'>
+<td><i>stop</i></td>
+<td>Arrête l&#8217;exécution du programme.</td><td> </td></tr>
+
+<tr class='row_odd'>
+<td><i>noop</i></td>
+<td>N&#8217;effectue aucune opération.</td><td> </td></tr>
+<tr class='row_even'>
+<td><i>saut i</i></td>
+<td>Met le compteur ordinal à la valeur <i>i</i>.</td><td> PC &larr; i</td></tr>
+<tr class='row_odd'>
+<td><i>sautpos ri j</i> </td>
+
+<td> Si la valeur contenue dans le registre <i>i</i> est positive ou nulle, met le compteur ordinal à la valeur <i>j</i>.</td> 
+<td>si ri &ge; 0  PC &larr; j sinon  PC &larr; PC+1 </td></tr>
+<tr class='row_even'>
+<td><i>valeur x ri</i></td>
+<td> Initialise le registre <i>i</i> avec la valeur <i>x</i>.</td>
+<td> ri &larr; x</td></tr>
+
+<tr class='row_odd'>
+<td><i>lecture i rj</i></td>
+<td> Charge, dans le registre <i>j</i>, le contenu de la mémoire d&#8217;adresse <i>i</i>.</td>
+<td> rj &larr;  men(i)</td></tr>
+<tr class='row_even'>
+<td><i>lecture *ri rj</i></td>
+<td> Charge, dans le registre <i>j</i>, le contenu de la mémoire dont l&#8217;adresse est la valeur du registre <i>i</i>.</td>
+<td> rj &larr;  men(ri)</td></tr>
+
+<tr class='row_odd'>
+<td><i>ecriture ri j</i></td>
+<td> Écrit le contenu du registre <i>i</i> dans la mémoire d&#8217;adresse <i>j</i>.</td>
+<td> ri &rarr;  men(j)</td></tr>
+<tr class='row_even'>
+<td><i>ecriture ri *rj</i></td>
+<td> Écrit le contenu du registre <i>i</i> dans la mémoire dont  l&#8217;adresse est la valeur du registre <i>j</i>.</td>
+<td> ri &rarr;  men(rj)</td></tr>
+
+<tr class='row_odd'>
+<td><i>inverse ri</i></td>
+<td> Inverse le signe du contenu du registre <i>i</i>.</td>
+<td> ri &larr;  &minus; ri</td></tr>
+<tr class='row_even'>
+<!--td><i>add x rj</i></td>
+<td> Ajoute <i>x</i> au contenu du registre <i>j</i>.</td>
+<td> rj &larr;  rj + x </td-->
+<td><i>add ri rj</i></td>
+<td> Ajoute la valeur du registre <i>i</i> à celle du registre <i>j</i>.</td>
+<td> rj &larr;  ri + rj</td>
+</tr>
+
+<tr class='row_odd'>
+<td><i>soustr ri rj</i></td>
+<td> Soustrait la valeur du registre <i>i</i> à celle du registre <i>j</i>.</td>
+<td> rj &larr;  rj &minus; ri</td></tr>
+<tr class='row_even'>
+<td><i>mult</i>, <i>div</i>, <i>et</i></td>
+
+<td> Même syntaxe que pour <i>add</i> et  <i>soustr</i> mais pour la multiplication, la division entière et le et bit à bit.</td>
+ <td> rj &larr;  rj (*, /, and) ri</td></tr>
+</tbody>
+</table>
+
+
+<table >
+<caption>Les instructions ajoutées à amil</caption>
+<thead><tr class='row_first'><th scope='col'>mnémonique</th><th scope='col'>detail</th><th scope='col'>actions</th></tr></thead>
+<tbody>
+<tr class='row_even'>
+
+<td><i>lecture ri rj</i></td>
+<td> Écrit le contenu du registre <i>i</i> dans le registre  <i>j</i>.</td>
+<td>rj &larr; ri</td></tr>
+
+<tr class='row_odd'>
+<td><i>sautnul ri j</i> </td>
+
+<td> Si la valeur contenue dans le registre <i>i</i> est  nulle, met le compteur ordinal à la valeur <i>j</i>.</td>
+<td>si ri = 0  PC &larr; j sinon  PC &larr; PC+1 </td></tr>
+<tr class='row_even'>
+<td><i>sautnonnul ri j</i> </td>
+
+<td> Si la valeur contenue dans le registre <i>i</i> est non nulle, met le compteur ordinal à la valeur <i>j</i>.</td>
+<td>si ri &ne; 0  PC &larr; j sinon  PC &larr; PC+1 </td></tr>
+
+<tr class='row_odd'>
+<td><i>add x ri</i> </td>
+
+<td>  Ajoute  <i>x</i> à celle du registre <i>i</i>.</td>
+<td> ri &larr; ri + x</td></tr>
+<tr class='row_even'>
+<td><i>mult</i>, <i>div</i>,<i>soustr</i> </td>
+
+<td> Même syntaxe que pour <i>add</i>  mais pour la multiplication, la division entière et la soustraction.</td>
+ <td> rj &larr;  rj (*, /, &minus;) x</td></tr>
+
+<tr class='row_odd'>
+<td><i>appel i </i> </td>
+
+<td>Appel de sous-programme à l'adresse <i>i</i></td>
+<td>(PC+1) &rarr; mem(r7), PC &larr; i, r7 &larr; r7 &minus; 1</td></tr>
+<tr class='row_even'>
+<td><i>retour</i> </td>
+
+<td> retour de procédure à l'appelant.</td>
+<td>PC &larr; mem(r7) , r7 &larr; r7 + 1 </td></tr>
+
+<tr class='row_odd'>
+<td><i>empiler ri</i> </td>
+
+<td> Place la valeur contenue dans le registre <i>i</i> en haut de la pile (la même pile que pour les adresses).</td>
+<td>ri  &rarr; mem(r7) , r7 &larr; r7 &minus; 1</td></tr>
+<tr class='row_even'>
+<td><i>depiler rj</i> </td>
+
+<td> Place la valeur en haut de la pile (la même pile que pour les adresses) dans le registre <i>rj</i>.</td>
+<td>rj  &larr; mem(r7) , r7 &larr; r7 + 1 </td></tr>
+</tbody>
+</table>
+<a href="http://www-lipn.univ-paris13.fr/~boudes"> vers le site de l'auteur</a><br/>
+</body>

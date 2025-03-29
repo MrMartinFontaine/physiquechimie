@@ -1,0 +1,10 @@
+lecture 8 r0
+lecture *r0 r1  
+ecriture r1 7
+ecriture r1 *r0
+STOP -- datas
+-32
+10
+6
+STOP
+STOP

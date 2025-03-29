@@ -1,0 +1,202 @@
+saut 5  # r1, r2 : n et p; r3 : tmp; r14 : valeur de retour; r15 : pile
+4  # n            
+2  # p
+   # résultat C(n,p)
+lecture 2 r1
+lecture 3 r2
+noop
+valeur 75 r15         # r15 : dessus de la pile
+valeur 16 r3          # retour = FIN
+ecriture r3 *r15    #
+add 1 r15           # paramètres
+ecriture r1 *r15    #
+add 1 r15           #
+ecriture r2 *r15    #
+saut 19             # saut CNP
+lecture *r15 r1    #                               # FIN
+ecriture r1 4
+stop
+noop               #  début de la fonction Cnp     # CNP
+noop           
+lecture *r15 r2     # p -> r2
+add -1 r15          # 
+lecture *r15 r1     # n -> r1
+add 1 r15           # *r15 pointe sur p
+noop                # test : n>p ?
+inverse r2          # -p
+add r1 r2           # n-p
+add -1 r2           # n-p-1
+sautpos r2 33        # n>p : saut  DEUX
+valeur 1 r14          # n<=p: renvoyer 1
+saut 69             # saut RETOUR
+noop                # test : p>0 ?
+lecture *r15 r2    # p -> r2                       # DEUX
+add  -1 r2          # p-1
+sautpos r2 38        # p>0 : saut TROIS
+valeur 1 r14          # p<=0: renvoyer 1
+saut 69             # saut RETOUR
+add  1 r2          # p -> r2                       # TROIS
+add -1 r1           # n-1 -> r1                   
+add -1 r15          # *r15 pointe sur n
+ecriture r1 *r15    # n <- n-1
+add 2 r15           # préparation de l'appel C(n-1,p)
+valeur 50 r12         # stockage de l'adresse de retour QUATRE
+ecriture r12 *r15   # 
+add 1 r15           # stockage des paramètres
+ecriture r1 *r15    #
+add 1 r15           #
+ecriture r2 *r15    #
+saut   19           # saut vers  CNP
+add -1 r15         # récupération de n-1 et p      # QUATRE
+lecture *r15 r2     # (au retour, *r15 pointe vers
+add -1 r15          #  le résultat de l'appel à C(n-1,p)
+lecture *r15 r1     #
+add -1 r2           # p-1 -> r2
+add  3 r15          # préparation de l'appel C(n-1,p-1)
+valeur 64 r12         # stockage de l'adresse de retour CINQ
+ecriture r12 *r15   #
+add 1 r15           # stockage des paramètres
+ecriture r1 *r15    #
+add 1 r15           #
+ecriture r2 *r15    #
+saut   19           # saut vers  CNP
+noop                #
+lecture *r15 r1    #  C(n-1,p-1) --> r1            # CINQ
+add -1 r15
+lecture *r15 r14    # C(n-1,p)   --> r14
+add r1 r14          # C(n-1,p) + C(n-1,p-1) --> r14
+add -1 r15          # *r15 pointe à nouveau sur p
+add -2 r15         #                               # RETOUR
+lecture *r15 r3     # lecture de l'adresse de retour
+ecriture r14 *r15   # remplacée par la valeur de retour
+saut *r3            # retour de la fonction Cnp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

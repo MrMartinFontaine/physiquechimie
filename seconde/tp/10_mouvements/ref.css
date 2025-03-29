@@ -1,0 +1,99 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-image: url(bg.gif);
+}
+
+.valv { position: absolute; left: 0px; top: 135px; visibility: visible; width: 76px; height: 34px; z-index: 11;}
+.velo2 {position: absolute; left: 195px; top: 381px; visibility: visible; width: 205px; height: 161px; z-index: 9;}
+.valv2 { position: absolute; left: 264px; top: 494px; visibility: visible; width: 76px; height: 34px; z-index: 12;}
+ .fd1 {position: absolute; left: -149px; top: 46px; visibility: visible; width: 1300px; height: 199px; z-index: 0;}
+  .fd2 {position: absolute; left: 0px; top: 332px; visibility: visible; width: 1300px; height: 200px; z-index: 0;}
+ 
+  .arb1 {position: absolute; left: 204px; top: 54px; visibility: visible; width: 110px; height: 101px; z-index: 4;}
+  .arb2 {position: absolute; left: 497px; top: 62px; visibility: visible; width: 418px; height: 101px; z-index: 0;}
+  .arb3 {position: absolute; left: 199px; top: 336px; visibility: visible; width: 234px; height: 101px; z-index: 2;}
+  .arb4 {position: absolute; left: 500px; top: 348px; visibility: visible; width: 223px; height: 177px; z-index: 3;}
+ .p {position:absolute;visibility:hidden; width:2px }
+a:link {
+	color: #0066FF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-decoration: underline;
+	background-color: #FFFFCC;
+	display: block;
+	border: 2px inset #666666;
+	text-align: center;
+}
+a:visited {
+font-size: 12px;
+	color:#FF0000;
+	display: block;
+	border: 2px outset #999999;
+	background-color: #FFFFCC;
+	text-align: center;
+}
+a:hover {
+font-size: 12px;
+	color: #FFFF99;
+	background-color: #3366FF;
+	display: block;
+	border: 2px outset #999999;
+	text-align: center;
+}
+a:active {
+font-size: 12px;
+	color: #666633;
+	display: block;
+	border: outset #999999;
+	text-align: center;
+}
+
+.t1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.txt {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	color: #66FF66;
+	background-color: #666666;
+	text-align: center;
+}
+h1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	color: #FF0000;
+	background-color: #FFFF00;
+	border: medium inset #CC6633;
+}
+h1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #FF0000;
+	background-color: #FFFFCC;
+	border-top-style: outset;
+	border-right-style: outset;
+	border-bottom-style: outset;
+	border-left-style: outset;
+	border-top-color: #666666;
+	border-right-color: #666666;
+	border-bottom-color: #666666;
+	border-left-color: #666666;
+}
+.t4 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	background-color: #FFFFCC;
+	border: medium outset #FFCC99;
+}
+.t5 {
+	font-size: 10px;
+	font-weight: bold;
+	color: #660099;
+}

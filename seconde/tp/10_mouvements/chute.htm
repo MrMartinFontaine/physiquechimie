@@ -1,0 +1,155 @@
+<html>
+
+<head>
+
+<link REL="STYLESHEET" HREF="move2.css" TYPE="text/css">
+<script SRC="nav.js" language="JavaScript"></script>
+<script SRC="move2.js" language="JavaScript"></script>
+<title>Mouvement de chute libre</title>
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+//-->
+</script>
+</head>
+
+<body onLoad="MM_preloadImages('ic1_2.jpg','ic3_2.jpg','ic2_2.jpg','ic4_2.jpg','ic5_2.jpg')">
+<div id="velo" style="position:absolute; left:173px; top:80px; width:218px; height:189px; z-index:2"><img border="0" src="velo2.gif" width="203" height="166"></div>
+  <div id="Layer3" style="position:absolute; left:2px; top:2px; width:830px; height:27px; z-index:22">
+    <table width="100%"  border="1" cellspacing="0" cellpadding="0">
+      <tr>
+        <td><a href="index.htm">ACCUEIL</a></td>
+        <td><a href="velo.htm">VALVE</a></td>
+        <td><a href="chute.htm">CHUTE</a></td>
+        <td><a href="manege.htm">MANEGE</a></td>
+        <td><a href="planetes.htm">PLANETES</a></td>
+        <td><a href="ref.htm">REFERENTIELS</a></td>
+        <td><a href="#" onClick="self.close()">QUITTER</a></td>
+      </tr>
+      <tr>
+        <td colspan="7"><div align="center">RELATIVITE DU MOUVEMENT : Le cycliste lache une balle tout en roulant </div></td>
+      </tr>
+    </table>
+  </div>
+  <div id="valve" style="position:absolute; left:310px; top:91px; width:33px; height:31px; z-index:23; visibility: visible;"><img border="0" src="v.gif" width="20" height="20"></div>
+  <div id="fond2" style="position:absolute; left:-1px; top:52px; width:272px; height:137px; z-index:0"><img border="0" src="f1.gif" width="1300" height="210"></div>
+  <div id="m1" style="position:absolute; left:-2px; top:263px; width:323px; height:64px; z-index:18">
+  <table width="100%"  border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="34%"><div align="center" class="txt">MOUVEMENT </div></td>
+      <td width="35%"><div align="center" class="txt">TRAJECTOIRE</div></td>
+      <td width="31%"><div align="center" class="txt">REFERENTIEL</div></td>
+    </tr>
+    <tr>
+      <td><table width="90" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><a href="#" onClick="depart()" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image14','','ic1_2.jpg',1)"><img src="ic1_1.jpg" alt="#" name="Image14" width="28" height="22" border="0"></a></td>
+            <td><a href="#" onClick="stop1=1" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image16','','ic3_2.jpg',1)"><img src="ic3_1.jpg" name="Image16" width="29" height="23" border="0"></a></td>
+            <td><a href="#" onClick="debut()" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image15','','ic2_2.jpg',1)"><img src="ic2_1.jpg" name="Image15" width="30" height="23" border="0"></a></td>
+          </tr>
+      </table></td>
+      <td><table width="60" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><a href="#" onClick="vis=0" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image17','','ic4_2.jpg',1)"><img src="ic4_1.jpg" name="Image17" width="30" height="24" border="0"></a></td>
+            <td><a href="#"onClick="vis=1;cacher()" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image18','','ic5_2.jpg',1)"><img src="ic5_1.jpg" name="Image18" width="30" height="24" border="0"></a></td>
+          </tr>
+      </table></td>
+      <td><table width="60" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><a href="#" onClick="vref1('ref1','ox','oy')" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image171','','ic4_2.jpg',1)"><img src="ic4_1.jpg" name="Image171" width="30" height="24" border="0" id="Image171"></a></td>
+            <td><a href="#" onClick="cref1('ref1','ox','oy')" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image181','','ic5_2.jpg',1)"><img src="ic5_1.jpg" name="Image181" width="30" height="24" border="0" id="Image181"></a></td>
+          </tr>
+      </table></td>
+    </tr>
+    <tr>
+      <td colspan="3"><div id="txt1" class="txt" style="position:relative";></div></td>
+    </tr>
+  </table>
+</div>
+<div id="fond" style="position:absolute; left:0px; top:244px; width:587px; height:109px; z-index:1">
+    <div id="arb1" style="position:absolute; left:295px; top:-188px; width:145px; height:172px; z-index:1"><img src="arb1.gif" width="31" height="187"></div>
+    <div id="arb2" style="position:absolute; left:563px; top:-183px; width:145px; height:172px; z-index:1"><img src="arb2.gif" width="121" height="185"></div>
+    <div id="arb3" style="position:absolute; left:816px; top:-144px; width:145px; height:172px; z-index:1"><img src="arb1.gif" width="76" height="145"></div>
+    <div id="cat" style="position:absolute; left:892px; top:-25px; width:41px; height:46px; z-index:1"><img src="cat6.gif"></div>
+    <div id="arb4" style="position:absolute; left:1060px; top:-143px; width:145px; height:172px; z-index:1"><img src="arb2.gif" width="76" height="145"></div>
+</div>
+<div id="ox" style="position:absolute; left:260px; top:230px; width:53px; height:19px; z-index:24; visibility: hidden;"><img src="oy.gif" width="480" height="19"></div><div id="ox2" style="position:absolute; left:177px; top:482px; width:53px; height:19px; z-index:24; visibility: hidden;"><img src="oy.gif" width="480" height="19"></div>
+<div id="oy" style="position:absolute; left:258px; top:106px; width:57px; height:149px; z-index:25; visibility: hidden;"><img src="ox.gif" width="24" height="142"></div><div id="oy2" style="position:absolute; left:204px; top:369px; width:57px; height:149px; z-index:25; visibility: hidden;"><img src="ox.gif" width="24" height="142"></div>
+<div id="ref1" style="position:absolute; left:33px; top:77px; width:166px; height:106px; z-index:26; visibility: hidden;" class="t1">La route est un référentiel terrestre (lié à la Terre). On peut décrire le mouvement dans&nbsp; un repère ( 0, x, y) lié à ce référentiel.</div><div id="ref2" style="position:absolute; left:15px; top:364px; width:166px; height:106px; z-index:26; visibility: hidden;" class="t1">Le r&eacute;f&eacute;rentiel est le v&eacute;lo en mouvement rectiligne uniforme par rapport au sol. On peut d&eacute;crire le mouvement dans&nbsp; un rep&egrave;re ( 0, x, y) li&eacute; &agrave; ce r&eacute;f&eacute;rentiel</div>
+<div id="Layer1" style="position:absolute; left:-4px; top:331px; width:120px; height:34px; z-index:0"><img src="f1.gif" width="1300" height="210"></div>
+<script>
+creer()
+</script>
+<div id="fond3" style="position:absolute; left:0px; top:522px; width:587px; height:109px; z-index:1">
+  <div id="arb1" style="position:absolute; left:295px; top:-188px; width:145px; height:172px; z-index:1"><img src="arb1.gif" width="31" height="187"></div>
+  <div id="arb2" style="position:absolute; left:563px; top:-183px; width:145px; height:172px; z-index:1"><img src="arb2.gif" width="121" height="185"></div>
+  <div id="arb3" style="position:absolute; left:816px; top:-144px; width:145px; height:172px; z-index:1"><img src="arb1.gif" width="76" height="145"></div>
+  <div id="cat" style="position:absolute; left:892px; top:-25px; width:41px; height:46px; z-index:1"><img src="cat6.gif"></div>
+  <div id="arb4" style="position:absolute; left:1060px; top:-143px; width:145px; height:172px; z-index:1"><img src="arb2.gif" width="76" height="145"></div>
+</div>
+<div id="velo2" style="position:absolute; left:173px; top:360px; width:218px; height:189px; z-index:2"><img border="0" src="velo2.gif" width="203" height="166"></div>
+<div id="valve2" style="position:absolute; left:314px; top:370px; width:33px; height:31px; z-index:23; visibility: visible;"><img border="0" src="v.gif" width="20" height="20"></div>
+<div id="m2" style="position:absolute; left:1px; top:540px; width:323px; height:64px; z-index:10">
+  <table width="100%"  border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="34%"><div align="center" class="txt">MOUVEMENT </div></td>
+      <td width="35%"><div align="center" class="txt">TRAJECTOIRE</div></td>
+      <td width="31%"><div align="center" class="txt">REFERENTIEL</div></td>
+    </tr>
+    <tr>
+      <td><table width="100" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="34"><a href="#" onClick="depart2()" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image22','','ic1_2.jpg',1)"><img src="ic1_1.jpg" name="Image22" width="28" height="22" border="0"></a></td>
+            <td width="36"><a href="#" onClick="stop2=1" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image23','','ic3_2.jpg',1)"><img src="ic3_1.jpg" name="Image23" width="29" height="23" border="0"></a></td>
+            <td width="22"><a href="#" onClick="debut2()" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image24','','ic2_2.jpg',1)"><img src="ic2_1.jpg" alt="#" name="Image24" width="29" height="23" border="0"></a></td>
+          </tr>
+      </table></td>
+      <td><table width="60" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><a href="#" onClick="vis2=0" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image25','','ic4_2.jpg',1)"><img src="ic4_1.jpg" name="Image25" width="30" height="24" border="0"></a></td>
+            <td><a href="#" onClick="vis2=1" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image26','','ic5_2.jpg',1)"><img src="ic5_1.jpg" name="Image26" width="30" height="24" border="0"></a></td>
+          </tr>
+      </table></td>
+      <td><table width="60" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><a href="#" onClick="vref2('ref2','ox2','oy2')" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image27','','ic4_2.jpg',1)"><img src="ic4_1.jpg" name="Image27" width="30" height="24" border="0"></a></td>
+            <td><a href="#" onClick="cref2('ref2','ox2','oy2')" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image28','','ic5_2.jpg',1)"><img src="ic5_1.jpg" name="Image28" width="30" height="24" border="0"></a></td>
+          </tr>
+      </table></td>
+    </tr>
+    <tr>
+      <td colspan="3"><div id="txt2" class="txt" style="position:relative";></div></td>
+    </tr>
+  </table>
+</div>
+</body>
+
+</html>

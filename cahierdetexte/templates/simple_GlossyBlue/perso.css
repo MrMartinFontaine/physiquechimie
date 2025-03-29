@@ -1,0 +1,53 @@
+/* Ci dessous : Styles personnels apparaissant dans l'editeur xinha de saisie de séance */
+/* Ne fonctionne que si vous avez telechargé le fichier area_activité spécifique */
+/* Voir sur le site - Rubrique "Plus de style" */
+.Titre {
+	COLOR: #990000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	text-align: center;
+	font-weight: bold;
+	text-decoration: underline;
+}
+.Titre1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+    color: #000066;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: underline;
+	text-align: left;
+	list-style-type: decimal;
+}
+.Titre2 {
+    color: #006600;
+	font-size: 11px;
+	font-weight: bold;
+	text-decoration: underline;
+	text-align: left;
+	list-style-type: decimal;
+}
+.normal {
+	COLOR: #000000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	text-decoration: none;
+	text-align: justify;
+	font-weight: normal;
+}
+.texte_bleu
+{
+  color:blue;
+}
+.texte_rouge
+{
+  color:red;
+}
+.texte_vert
+{
+  color:green;
+}
+liste.verte
+{
+  color:green;
+}
+

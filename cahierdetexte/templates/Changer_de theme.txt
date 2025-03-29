@@ -1,0 +1,29 @@
+A propos des thèmes (ou templates )
+------------------------------------
+
+Les thèmes sont relatifs à la présentation des menus (page d'accueil par exemple)
+
+Pour installer un thème, copier tous ses fichiers dans le dossier templates/defaut/
+Le theme installé par défaut est original_bleu_avec_flash
+Ainsi, en copiant les fichiers du dossier templates/simple_GlossyBlue dans le dossier templates/default, vous intallerez le modèle simple_GlossyBlue.
+
+Le thème utilise la feuille de style header_footer.css dans laquelle vous retrouverez :
+
+- soit l'appel à une couleur (exemple background-color: white;)
+- soit l'appel à une image d'arrière-plan présente dans le dossier du modèle(exemple background: url(cdt_bg.jpg) 
+
+
+Voici les 4 principaux éléments relatifs à la présentation et présents dans le fichier header_footer.css :
+
+1) Couleur ou image autour du menu
+BODY {	background: .......}
+
+2) Couleur ou image d'arrière plan du bandeau de titre Cahier de textes
+#header { background: ...... }
+
+3) Couleur ou image d'arrière plan centre de la page 
+#page {	background: ..........) }
+
+4) Couleur ou image d'arrière plan du bandeau de pied de page avec le nom de l'auteur et version
+#footer { background: ........ }
+

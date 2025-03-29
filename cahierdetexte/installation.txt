@@ -1,0 +1,55 @@
+Installation du Cahier de textes
+************************************
+
+Téléchargez la dernière version
+
+Décompressez l'archive.
+
+Montez avec votre outil FTP l'ensemble des fichiers sur votre espace chez votre hébergeur. Vous pouvez faire cohabiter l'application avec le site Web de l'établissement par exemple. On prendra soin par exemple de mettre ces fichiers dans un dossier préalablement nommé cdt ou cahier_de_textes.
+
+Vous devrez avoir accès à une base donnée. Vous pouvez utiliser celle déjà utilisée pour gérer d'autres applications telles que Spip, Joomla, GRR...). Les tables du cahier de textes seront préfixées cdt_
+
+Lancer la procédure d'installation en exécutant le fichier install soit
+
+http://www.mon_etablissement.fr/cahier_de_textes/install/
+
+Il ne vous reste plus qu'à suivre très attentivement les indications à l'écran.
+
+ 
+
+Vous trouverez ici un tutoriel d'installation plus imagé :
+
+http://bonsauveur.eu/wp_cdt/cahierdetexte.pdf
+
+ 
+
+D'autres tutoriels existent ici :
+
+http://bonsauveur.eu/wp_cdt/?page_id=7 
+
+
+
+Sur certains serveurs, vous ne disposez pas toujours certains droits. L'installation automatisée s'en trouve affectée. A cette fin, les pros trouveront dans le dossier install, le fichier de requéte sql sous le nom install_manuel.txt.
+
+
+
+
+
+Documentation en ligne - Correctifs  Mise à jour
+*************************************************
+
+http://bonsauveur.eu/wp_cdt/
+
+
+et pour le chocolat ou autres spécialités régionales
+****************************************************
+
+Pierre Lemaitre
+324 Rue Ambroise Paré
+50000 Saint-Lô
+
+pierre.lemaitre@laposte.net
+
+
+
+

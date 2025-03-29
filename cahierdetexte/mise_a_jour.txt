@@ -1,0 +1,87 @@
+Mise à jour du Cahier de textes
+*******************************
+
+Mise à jour vers la version 4951 compatible php7
+
+La procedure est la meme que par le passé et est decrite par la suite.
+
+Attention cependant :
+
+Votre ancien fichier Connections/conn_cahier_de_texte.php contient une instruction non compatible php7.
+
+Pour corriger, deux methodes au choix :
+
+Méthode 1
+Garder votre fichier et modifier la dernière ligne (il y a maintenant un i supplementaire dans l'instruction mysqli_connect > à modifier à deux endroits  ;)
+$conn_cahier_de_texte = mysqli_connect($hostname_conn_cahier_de_texte, $username_conn_cahier_de_texte, $password_conn_cahier_de_texte) or die(mysqli_connect_errno());
+
+
+ou 
+
+
+Methode 2
+Prendre le fichier de la derniere version Connections/conn_cahier_de_texte.php, l'éditer et remettre vos propres paramètres de connexions à lvotre base de données.
+
+
+
+
+
+Dans le cadre d'un changement de version, vous gardez absolument toute votre base.
+Le but n'est que de modifier les fichiers qui permettent à votre cahier de textes de passer à la version suivante.
+
+
+
+
+Voici la procédure à adopter :
+
+
+1. Sauvegarder en local le dossier : Connections contenant vos paramètres de connexion à la base, nom de votre établissement.... 
+2. Sauvegarder en local tous les dossiers fichiers_joints et s'ils existent fichiers_joints_message, rss, exportation
+3. Sauvegarder en local tout le dossier templates/default (s'il existe) dans le cas ou vous avez défini des styles personnels et/ou modifié le fichier header.php 
+4. Supprimer tous les fichiers de votre cahier de textes, ancienne version
+5. Transférer les fichiers de la nouvelle version sur votre serveur
+6. Remettre vos dossiers sauvegardés Connections (apres avoir modifié le fichier conn_cahier_de_texte.php comme expliqué plus haut), fichiers_joints et templates/default et s'ils existent fichiers_joints_message, rss, exportationsur le serveur
+7. Se connecter sur l'interface du cahier de textes en administrateur avec le même mot de passe qu'auparavant.
+8. Vérifiez si une mise à jour de votre base de données est nécessaire dans la partie "Mise à jour" 
+du menu Administrateur. 
+
+
+
+
+
+Depuis la version 3.0.5, vous êtes invités à définir dans Administrateur/gestion des utilisateurs, un Responsable Etablissement et un Responsable Vie Scolaire
+
+Ces personnes aux profils spécifiques ont des interfaces particulières.
+
+Vous pouvez personnaliser la page d'accueil par utilisation de différents modèles présents dans le dossier template. Substituer dans ce cas les fichiers du dossier default.
+
+
+et pour le chocolat au lait ou autres spécialités régionales
+************************************************************
+
+Pierre Lemaitre
+324 Rue Ambroise Paré
+50000 Saint-Lô
+
+
+
+Documentation en ligne 
+**********************
+
+http://www.etab.ac-caen.fr/bsauveur/cahier_de_texte/
+
+
+
+
+Autre application de l'auteur
+*****************************
+
+Plateforme pédagogique STOCKPOTATOES
+http://www.etab.ac-caen.fr/bsauveur/stockpotatoes/
+
+Pierre Lemaitre
+pierre.lemaitre@ac-caen.fr
+
+
+
+

@@ -1,0 +1,86 @@
+/* Inset 3D Raised */
+.raised {background: transparent; width:100%; margin:0 auto;}
+.raised h1, .raised p {margin:0 10px;}
+.raised h1 {font-size:2em; color:#fff; letter-spacing:1px;}
+.raised p {padding-bottom:0.5em;}
+
+
+
+
+/* vert*/
+.raised .top, .raised .bottom {display:block; background:transparent; font-size:1px;}
+.raised .b1, .raised .b2, .raised .b3, .raised .b4, .raised .b1b, .raised .b2b, .raised .b3b, .raised .b4b {display:block; overflow:hidden;}
+.raised .b1, .raised .b2, .raised .b3, .raised .b1b, .raised .b2b, .raised .b3b {height:1px;}
+.raised .b2 {background:#CAFDBD; border-left:1px solid #fff; border-right:1px solid #eee;}
+.raised .b3 {background:#CAFDBD; border-left:1px solid #fff; border-right:1px solid #ddd;}
+.raised .b4 {background:#CAFDBD; border-left:1px solid #fff; border-right:1px solid #aaa;}
+.raised .b4b {background:#CAFDBD; border-left:1px solid #eee; border-right:1px solid #999;}
+.raised .b3b {background:#CAFDBD; border-left:1px solid #ddd; border-right:1px solid #999;}
+.raised .b2b {background:#CAFDBD; border-left:1px solid #aaa; border-right:1px solid #999;}
+.raised .b1 {margin:0 5px; background:#fff;}
+.raised .b2, .raised .b2b {margin:0 3px; border-width:0 2px;}
+.raised .b3, .raised .b3b {margin:0 2px;}
+.raised .b4, .raised .b4b {height:2px; margin:0 1px;}
+.raised .b1b {margin:0 5px; background:#999;}
+.raised .boxcontent {display:block;  background:#CAFDBD; border-left:1px solid #fff; border-right:1px solid #999;}
+
+/* bleu*/
+.raised .top, .raised .bottom {display:block; background:transparent; font-size:1px;}
+.raised .bb1, .raised .bb2, .raised .bb3, .raised .bb4, .raised .bb1b, .raised .bb2b, .raised .bb3b, .raised .bb4b {display:block; overflow:hidden;}
+.raised .bb1, .raised .bb2, .raised .bb3, .raised .bb1b, .raised .bb2b, .raised .bb3b {height:1px;}
+.raised .bb2 {background:#CBDCEB; border-left:1px solid #fff; border-right:1px solid #eee;}
+.raised .bb3 {background:#CBDCEB; border-left:1px solid #fff; border-right:1px solid #ddd;}
+.raised .bb4 {background:#CBDCEB; border-left:1px solid #fff; border-right:1px solid #aaa;}
+.raised .bb4b {background:#CBDCEB; border-left:1px solid #eee; border-right:1px solid #999;}
+.raised .bb3b {background:#CBDCEB; border-left:1px solid #ddd; border-right:1px solid #999;}
+.raised .bb2b {background:#CBDCEB; border-left:1px solid #aaa; border-right:1px solid #999;}
+.raised .bb1 {margin:0 5px; background:#fff;}
+.raised .bb2, .raised .bb2b {margin:0 3px; border-width:0 2px;}
+.raised .bb3, .raised .bb3b {margin:0 2px;}
+.raised .bb4, .raised .bb4b {height:2px; margin:0 1px;}
+.raised .bb1b {margin:0 5px; background:#999;}
+.raised .boxcontent2 {display:block;  background:#CBDCEB; border-left:1px solid #fff; border-right:1px solid #999;}
+
+
+/* jaune*/
+.raised .top, .raised .bottom {display:block; background:transparent; font-size:1px;}
+.raised .eb1, .raised .eb2, .raised .eb3, .raised .eb4, .raised .eb1b, .raised .eb2b, .raised .eb3b, .raised .eb4b {display:block; overflow:hidden;}
+.raised .eb1, .raised .eb2, .raised .eb3, .raised .eb1b, .raised .eb2b, .raised .eb3b {height:1px;}
+.raised .eb2 {background:#FFCC66; border-left:1px solid #fff; border-right:1px solid #eee;}
+.raised .eb3 {background:#FFCC66; border-left:1px solid #fff; border-right:1px solid #ddd;}
+.raised .eb4 {background:#FFCC66; border-left:1px solid #fff; border-right:1px solid #aaa;}
+.raised .eb4b {background:#FFCC66; border-left:1px solid #eee; border-right:1px solid #999;}
+.raised .eb3b {background:#FFCC66; border-left:1px solid #ddd; border-right:1px solid #999;}
+.raised .eb2b {background:#FFCC66; border-left:1px solid #aaa; border-right:1px solid #999;}
+.raised .eb1 {margin:0 5px; background:#fff;}
+.raised .eb2, .raised .eb2b {margin:0 3px; border-width:0 2px;}
+.raised .eb3, .raised .eb3b {margin:0 2px;}
+.raised .eb4, .raised .eb4b {height:2px; margin:0 1px;}
+.raised .eb1b {margin:0 5px; background:#999;}
+.raised .boxcontent3 {background-color: #FFCC66;display:block;border-left:1px solid #fff;	border-right:1px solid #999;}
+
+
+/* Page consulter - bleu*/
+
+.raised2 {
+	background: transparent;
+	margin-left:2px;
+	margin-right:2px;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+.raised2 .top, .raised2 .bottom {display:block; background:transparent; font-size:1px;}
+.raised2 .bb1, .raised2 .bb2, .raised2 .bb3, .raised2 .bb4, .raised2 .bb1b, .raised2 .bb2b, .raised2 .bb3b, .raised2 .bb4b {display:block; overflow:hidden;}
+.raised2 .bb1, .raised2 .bb2, .raised2 .bb3, .raised2 .bb1b, .raised2 .bb2b, .raised2 .bb3b {height:1px;}
+.raised2 .bb2 {background:#CBDCEB; border-left:1px solid #fff; border-right:1px solid #eee;}
+.raised2 .bb3 {background:#CBDCEB; border-left:1px solid #fff; border-right:1px solid #ddd;}
+.raised2 .bb4 {background:#CBDCEB; border-left:1px solid #fff; border-right:1px solid #aaa;}
+.raised2 .bb4b {background:#CBDCEB; border-left:1px solid #eee; border-right:1px solid #999;}
+.raised2 .bb3b {background:#CBDCEB; border-left:1px solid #ddd; border-right:1px solid #999;}
+.raised2 .bb2b {background:#CBDCEB; border-left:1px solid #aaa; border-right:1px solid #999;}
+.raised2 .bb1 {margin:0 5px; background:#fff;}
+.raised2 .bb2, .raised2 .bb2b {margin:0 2px; border-width:0 2px;}
+.raised2 .bb3, .raised2 .bb3b {margin:0 2px;}
+.raised2 .bb4, .raised2 .bb4b {height:2px; margin:0 1px;}
+.raised2 .bb1b {margin:0 2px; background:#999;}
+.raised2 .boxcontent2 {display:block;  background:#CBDCEB; border-left:1px solid #fff; border-right:1px solid #999;}

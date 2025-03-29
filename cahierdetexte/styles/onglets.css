@@ -1,0 +1,64 @@
+
+ul {
+	margin: 0;
+	padding: 0;
+	float: left;
+	list-style: none;
+	height: 30px;
+	border-bottom: 1px solid #666;
+	border-left: 1px solid #666;
+	width: 710px;
+}
+ul li {
+	float: left;
+	margin: 0;
+	padding: 0;
+	height: 29px;
+	line-height: 29px;
+	border: 1px solid #666;
+	border-left: none;
+	margin-bottom: -1px;
+	overflow: hidden;
+	position: relative;
+	background: #ddd;
+}
+ul li a {
+	text-decoration: none;
+	color: #888;
+	display: block;
+	padding: 0 20px;
+}
+ul li a:hover {
+	background: #ccc;
+	color: #666;
+}
+
+/* Onglets */
+.ui-tabs .ui-tabs-nav li.ui-state-active {
+	cursor: text;
+	color: #666;
+	border-bottom: 1px solid #fff;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a {
+	position: relative;
+	background: #fff;
+}
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+	cursor: pointer;
+}
+.ui-tabs .ui-tabs-panel { 
+	display: block;
+	border: 1px solid #666;
+	border-top: none;
+	overflow: hidden;
+	clear: both;
+	float: left;
+	width: 690px;
+	background: #fff;
+	margin: 0;
+	padding: 10px 10px 0;
+}
+.ui-tabs .ui-tabs-hide {
+	display: none !important;
+}
+

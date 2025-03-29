@@ -1,0 +1,44 @@
+/* CSS Document */
+#header 	{ margin: 0 !important; margin: 0 0 0 1px; padding: 1px; height: 198px; width: 758px; }
+#headerimg 	{ margin: 7px 9px 0; height: 192px; width: 740px; } 
+
+
+/*Ci-dessous les trois principaux styles affectant la présentation du haut de page*/
+
+/*l'image d'arrière plan - A personnaliser en incluant par exemple votre logo établissement */
+#header { background: url(../images/cdt_header_archive.jpg) no-repeat bottom center; }
+
+/*le titre - Le titre est "Cahier de textes" par défaut - Voir header.php */
+.header_titre {	
+	FONT-SIZE: 4em; 	
+	color: #FFFFFF;
+	FONT-FAMILY: 'Lucida Grande', Verdana, Arial, Helvetica, Sans-Serif; 
+}
+
+/*la description - Rubrique définie dans chacune des pages + le nom de l'enseignant s'il existe - Voir header.php */
+.header_description {
+	TEXT-ALIGN: center;
+	font-size: 1.5em;
+	color: #FFFFFF;
+}
+
+
+#header_archive { background: url(../images/cdt_header_archive.jpg) no-repeat bottom center; }
+#header_archive	{ margin: 0 !important; margin: 0 0 0 1px; padding: 1px; height: 198px; width: 758px; }
+
+
+#footer { background: url(../templates/default/cdt_footer.jpg) no-repeat bottom; border: none;}
+
+#footer {
+	padding: 0 0 0 1px;
+	margin: 0 auto;
+	width: 760px;
+	clear: both;
+	height: 50px;
+	}
+
+#footer p {
+	margin: 0;
+	padding: 20px 0;
+	text-align: center;
+	}

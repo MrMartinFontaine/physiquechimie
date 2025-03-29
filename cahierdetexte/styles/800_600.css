@@ -1,0 +1,28 @@
+/* CSS Document */
+
+#container {
+position: absolute;
+width: 98%;
+margin-top: 5px;
+margin-left: 1px;
+background-color: #FFFFFF;
+left: 1px; }
+
+#container2 {
+position: absolute;
+width: 900px;
+margin-top: 5px;
+margin-left: -450px;
+border-width: 1px;
+border-style: solid;
+background-color: #FFFFFF;
+left: 50%; }
+
+#container3 {
+position: absolute;
+padding: 15px;
+left: 1%;
+margin-left: 2px;
+width: 96%;
+margin-top: 5px;
+background-color: #FFFFFF; }

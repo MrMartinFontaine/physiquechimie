@@ -1,0 +1,572 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!--
+Latex Editor plugin pour Xinha 
+éditeur pour équations mathematiques
+Questions? Suggestions? email philippe.simier@ac_nantes.fr
+Last Modified : 2008-02-01 22:53:16
+This Page Is Valid XHTML 1.0 Strict!
+résultat de http://validator.w3.org/check
+-->
+
+
+<head>
+  <title>Editeur Latex</title>
+  <link rel="stylesheet" type="text/css" href="../../../popups/popup.css" />
+  <script type="text/javascript" src="../../../popups/popup.js"></script>
+  <script type="text/javascript" src="serveur_latex.js"></script>
+  <style type="text/css">
+<!--
+#container {
+	position : absolute;
+    top : 60px;
+    left : 10px;
+	border: 1px solid #999;
+	padding: 2px;
+	width: 180px;
+	height: 257px; 
+	text-align: left;
+	background-color: ButtonFace;
+}
+
+.droite {
+	position : absolute;
+    top : 60px;
+    left : 200px;
+	width: 380px; 
+	height: 261px; 
+	background-color: #FFF;
+	border: 1px solid #999;
+	}
+	
+#choix {
+ height: 82px;
+ border-bottom: 1px solid #999;
+}
+
+#container * {
+	margin: 0;
+	padding: 0;
+}
+
+#choix .menu_choix {
+	float: left;
+}
+
+.menu_icon {
+ border: 0px;
+}
+
+#container  a {
+	border: 1px solid #ECE9D8;
+/* pour firefox je définis une hauteur de font */
+	font-size: 31px;
+	line-height: 32px;
+}
+
+#container  a:hover {
+	background-color: #F4F1DF;
+	border-bottom: 1px solid #999;
+	border-right: 1px solid #999;
+	border-top: 1px solid #FFFFFF;
+	border-left: 1px solid #FFFFFF;
+}
+
+#container .content {
+	background-color:ButtonFace;
+}
+
+#container a.current {
+	background-color: #DBD8C8;
+}
+
+#container a.ghost  {
+		background-color: #ECE9D8;
+}
+
+ .on {
+	display: block;
+}
+ .off {
+	display: none;
+}
+
+#fond{
+	background-color:#000000;
+    filter : alpha(opacity=10);  /* pour iE */
+    opacity : 0.1;               /* pour firefox */
+    position : absolute;
+    top : 145px;
+    left : 11px;
+    width : 184px;
+    height : 178px;
+    z-index : 1;
+    }
+-->
+</style>
+
+<script type="text/javascript">
+// <![CDATA[
+window.resizeTo(620, 430);
+
+function Init() {
+  __dlg_translate("HTMLArea");
+  __dlg_init();
+
+//  Netoyage de l'Argument pour ne garder que le code LATEX  
+  var param = window.dialogArguments;
+  if (typeof(param["content"])!= "undefined"){
+  	// extraction de la sous chaîne contenant le code LATEX
+	// chaine comprise entre le ? et le "	
+    tex_contenu = param["content"].substring(param["content"].indexOf('?')+1,param["content"].lastIndexOf('"')); 
+    tex_contenu = Remplace(tex_contenu,'%2B','+'); // on remet les caractères  à la place de leurs codes
+    tex_contenu = Remplace(tex_contenu,'%20',' ');
+    tex_contenu = Remplace(tex_contenu,'%0A','\n');
+    tex_contenu = Remplace(tex_contenu,'&amp;','&');
+    tex_contenu = Remplace(tex_contenu,'%09','\t');
+	}
+  else tex_contenu = '';
+	
+  document.getElementById("TEX").value = tex_contenu;
+  document.getElementById("TEX").focus();
+}
+
+function onOK() {
+	var chaine = chaine = Remplace(document.getElementById("TEX").value,"+","%2B");
+	var ret = '<img src="'+ serveur_cgi + chaine + '"/>';
+  	__dlg_close( ret );
+}
+
+// fonction pour Remplacer une sous chaine a par la sous chaine b 
+// dans la chaine expr.
+
+function Remplace(expr,a,b) {
+      var i=0
+      while (i!=-1) {
+         i=expr.indexOf(a,i);
+         if (i>=0) {
+            expr=expr.substring(0,i)+b+expr.substring(i+a.length);
+            i+=b.length;
+         }
+      }
+      return expr
+   }
+
+
+function onCancel() {
+  __dlg_close( null );
+  return false;
+}
+
+
+function insertion(repdeb, repfin) {
+  var input = document.getElementById("TEX");
+  input.focus();
+  /* pour l'Explorer Internet */
+  if(typeof document.selection != 'undefined') {
+    /* Insertion du code de formatage */
+    var range = document.selection.createRange();
+    var insText = range.text;
+    range.text = repdeb + insText + repfin;
+    /* Ajustement de la position du curseur */
+    range = document.selection.createRange();
+    if (insText.length == 0) {
+      range.move('character', -repfin.length);
+    } else {
+      range.moveStart('character', repdeb.length + insText.length + repfin.length);
+    }
+    range.select();
+  }
+  /* pour navigateurs plus récents basés sur Gecko*/
+  else if(typeof input.selectionStart != 'undefined')
+  {
+    /* Insertion du code de formatage */
+    var start = input.selectionStart;
+    var end = input.selectionEnd;
+    var insText = input.value.substring(start, end);
+    input.value = input.value.substr(0, start) + repdeb + insText + repfin + input.value.substr(end);
+    /* Ajustement de la position du curseur */
+    var pos;
+    if (insText.length == 0) {
+      pos = start + repdeb.length;
+    } else {
+      pos = start + repdeb.length + insText.length + repfin.length;
+    }
+    input.selectionStart = pos;
+    input.selectionEnd = pos;
+  }
+  /* pour les autres navigateurs */
+  else
+  {
+    /* requête de la position d'insertion */
+    var pos;
+    var re = new RegExp('^[0-9]{0,3}$');
+    while(!re.test(pos)) {
+      pos = prompt("Insertion \340 la position (0.." + input.value.length + "):", "0");
+    }
+    if(pos > input.value.length) {
+      pos = input.value.length;
+    }
+    /* Insertion du code de formatage */
+    var insText = prompt("Veuillez entrer le texte \340 formater:");
+    input.value = input.value.substr(0, pos) + repdeb + insText + repfin + input.value.substr(pos);
+  }
+}
+
+function multiClass(eltId) {
+	arrLinkId = new Array('_0','_1','_2','_3','_4','_5','_6','_7','_8','_9');
+	intNbLinkElt = new Number(arrLinkId.length);
+	arrClassLink = new Array('current','ghost');
+	strContent = new String()
+	for (i=0; i<intNbLinkElt; i++) {
+		strContent = "menu"+arrLinkId[i];
+		if ( arrLinkId[i] == eltId ) {
+			document.getElementById(arrLinkId[i]).className = arrClassLink[0];
+			document.getElementById(strContent).className = 'on content';
+		} else {
+			document.getElementById(arrLinkId[i]).className = arrClassLink[1];
+			document.getElementById(strContent).className = 'off content';
+		}
+	}	
+}
+
+function rendu_text() {
+if (document.getElementById("rendu").className == "off droite"){ 
+	document.getElementById("text").className = "off droite";
+	document.getElementById("rendu").className = "on droite";
+	document.getElementById("fond").className = "on";
+	document.getElementById("brendu").firstChild.nodeValue = "Code ";
+	image = document.getElementById("img_rendu");
+	chaine = Remplace(document.getElementById("TEX").value,"+","%2B");
+    image.src=serveur_cgi+chaine;
+	} else {
+	document.getElementById("text").className = "on droite";
+	document.getElementById("rendu").className = "off droite";
+	document.getElementById("fond").className = "off";
+	document.getElementById("brendu").firstChild.nodeValue = "Aper\347u";
+	document.getElementById("TEX").focus();
+	image = document.getElementById("img_rendu");
+    image.src="../img/loading.gif";
+	}
+}
+// ]]>
+</script>
+</head>
+
+<body class="dialog" onload="Init();">
+<div id="fond" class="off" onclick="rendu_text()"></div>
+<div class="title">Editeur -
+	<img src="../img/LaTeX_logo.png" width="56" height="22" alt="Logo Latex" /> - Saisissez votre expression. -<a  href="aide%20latex.pdf">Aide</a>
+</div>
+<div style="width : 580px; height : 280px;">
+<div id="container">
+	<div id="choix">
+	
+		<div class="menu_choix">
+			<a href="#" id="_0" class="current" onclick="multiClass(this.id)"  title="Op&eacute;rateurs unaires/binaires"><img class="menu_icon" src="../img/icone_1.png" alt="Op&eacute;rateurs unaires/binaires" /></a>
+		</div>
+		<div class="menu_choix">
+			<a href="#" id="_1" class="ghost" onclick="multiClass(this.id)"  title="Relations"><img class="menu_icon" src="../img/icone_2.png" alt="Relations" /></a>
+		</div>
+		<div class="menu_choix">
+			<a href="#" id="_2" class="ghost" onclick="multiClass(this.id)"  title="Op&eacute;rateurs d'ensemble"><img class="menu_icon" src="../img/icone_3.png" alt="Op&eacute;rateurs d'ensemble" /></a>
+		</div>
+		<div class="menu_choix">
+			<a href="#" id="_3" class="ghost" onclick="multiClass(this.id)"  title="Fonctions"><img class="menu_icon" src="../img/icone_4.png" alt="Fonctions" /></a>
+		</div>
+        <div class="menu_choix">
+			<a href="#" id="_4" class="ghost" onclick="multiClass(this.id)"  title="Op&eacute;rateurs"><img class="menu_icon" src="../img/icone_5.png" alt="Op&eacute;rateurs" /></a>
+		</div>
+	
+	
+		<div class="menu_choix">
+			<a href="#" id="_5" class="ghost" onclick="multiClass(this.id)"  title="Attributs"><img class="menu_icon" src="../img/icone_6.png" alt="Attributs" /></a>
+		</div>
+		<div class="menu_choix">
+			<a href="#" id="_6" class="ghost" onclick="multiClass(this.id)"  title="Autres symboles"><img class="menu_icon" src="../img/icone_7.png" alt="Autres symboles" /></a>
+		</div>
+		<div class="menu_choix">
+			<a href="#" id="_7" class="ghost" onclick="multiClass(this.id)"  title="Parenth&egrave;ses"><img class="menu_icon" src="../img/icone_8.png" alt="Parenth&egrave;ses" /></a>
+		</div>
+		<div class="menu_choix">
+			<a href="#" id="_8" class="ghost" onclick="multiClass(this.id)"  title="Formatages"><img class="menu_icon" src="../img/icone_9.png" alt="Formatages" /></a>
+		</div>
+		<div class="menu_choix">
+			<a href="#" id="_9" class="ghost" onclick="multiClass(this.id)"  title="Alphabet grec"><img class="menu_icon" src="../img/icone_10.png" alt="Alphabet grec" /></a>
+		</div>
+	</div>
+	<div id="menu_0" class="on content">
+		<map name="FPMap0" id="FPMap0">
+		<area alt="Multiplication (croix)" coords="66, 33, 99, 64" shape="rect" href="javascript:insertion('\\times%20','')" />
+		<area alt="signe +" href="javascript:insertion('+','')" shape="rect" coords="0, 0, 32, 32" />
+		<area alt="Signe -" href="javascript:insertion('-','')" shape="rect" coords="33, 0, 65, 32" />
+		<area alt="Signe +-" href="javascript:insertion('\\pm ','')" shape="rect" coords="66, 0, 97, 32" />
+		<area alt="Signe -+" href="javascript:insertion('\\mp ','')" shape="rect" coords="98, 0, 130, 32" />
+		<area alt="+ d'addition" href="javascript:insertion('+','')" shape="rect" coords="0, 33, 31, 64" />
+		<area alt="Multiplication (point)" href="javascript:insertion('\\cdot ','')" shape="rect" coords="33, 34, 64, 64" />
+		<area alt="Multiplication (&eacute;toile)" href="javascript:insertion('\\ast ','')" shape="rect" coords="100, 34, 130, 64" />
+		<area alt="ET logique" href="javascript:insertion('\\wedge ','')" shape="rect" coords="132, 34, 159, 63" />
+		<area alt="- de soustraction" href="javascript:insertion('-','')" shape="rect" coords="1, 65, 32, 97" />
+		<area alt="Division (fraction)" href="javascript:insertion('\\frac{','}{}')" shape="rect" coords="33, 65, 66, 97" />
+		<area alt="Division (barre)" href="javascript:insertion('\\div ','')" shape="rect" coords="68, 65, 99, 97" />
+		<area alt="Division barre oblique" href="javascript:insertion('/','')" shape="rect" coords="101, 66, 129, 96" />
+		<area alt="Ou logique" href="javascript:insertion('\\vee ','')" shape="rect" coords="130, 66, 159, 97" />
+		<area alt="Concat&eacute;nation" href="javascript:insertion('\\circ ','')" shape="rect" coords="1, 99, 31, 130" />
+		<area alt="Non logique" coords="131, 1, 159, 32" shape="rect" href="javascript:insertion('\\neg%20','')" />
+		</map>
+		<img class="menu_icon" src="../img/operateurs_un_bi.png" width="160" height="169" usemap="#FPMap0" alt="Op&eacute;rateurs unaires/binaires"/>
+	</div>
+	<div id="menu_1" class="off content">
+		<map name="FPMap1" id="FPMap1">
+		<area alt="Est similaire ou &eacute;gal" coords="66, 33, 99, 64" shape="rect" href="javascript:insertion('\\simeq%20','')" />
+		<area alt="Est &eacute;gal" href="javascript:insertion('=','')" shape="rect" coords="0, 0, 32, 32" />
+		<area alt="Est diff&eacute;rent" href="javascript:insertion('\\neq%20','')" shape="rect" coords="33, 0, 65, 32" />
+		<area alt="Est approximativement &eacute;gal &agrave;" href="javascript:insertion('\\approx%20','')" shape="rect" coords="66, 0, 97, 32" />
+		<area alt="Est inf&eacute;rieur &agrave;" href="javascript:insertion('%20%3c%20','')" shape="rect" coords="0, 33, 31, 64" />
+		<area alt="Est inf&eacute;rieur &agrave;" href="javascript:insertion('%20%3c%20','')" shape="rect" coords="0, 33, 31, 64" />
+ds="33, 34, 64, 64" />
+		<area alt="Est parallele" href="javascript:insertion('\\parallel%20','')" shape="rect" coords="100, 34, 130, 64" />
+		<area alt="Est perpendiculaire &agrave;" href="javascript:insertion('\\perp%20','')" shape="rect" coords="132, 34, 159, 63" />
+		<area alt="Est inf&eacute;rieur ou &eacute;gale (oblique)" href="javascript:insertion('\\leqslant%20','')" shape="rect" coords="1, 65, 32, 97" />
+		<area alt="est sup&eacute;rieur ou &eacute;gal (oblique)" href="javascript:insertion('\\geqslant','')" shape="rect" coords="33, 65, 66, 97" />
+		<area alt="Est similaire &agrave;" href="javascript:insertion('\\sim%20','')" shape="rect" coords="68, 65, 99, 97" />
+		<area alt="Est &eacute;quivalent &agrave;" href="javascript:insertion('\\equiv%20','')" shape="rect" coords="101, 66, 129, 97" />
+		<area alt="Est sup&eacute;rieur ou &eacute;gal" href="javascript:insertion('\\geq%20','')" shape="rect" coords="34, 99, 65, 130" />
+		<area alt="Est inf&eacute;rieur ou &eacute;gal" href="javascript:insertion('\\leq%20','')" shape="rect" coords="1, 99, 31, 130" />
+		<area alt="Est proportionnel &agrave;" coords="66, 99, 97, 130" shape="rect" href="javascript:insertion('\\propto%20','')" />
+		<area alt="Tend vers" coords="98, 99, 130, 130" shape="rect" href="javascript:insertion('\\rightarrow%20','')" />
+		<area alt="Double fl&egrave;che vers la gauche" coords="1, 133, 32, 165" shape="rect" href="javascript:insertion('\\Leftarrow%20','')" />
+		<area alt="Double fl&egrave;che vers la gauche et la droite" coords="34, 132, 65, 165" shape="rect" href="javascript:insertion('\\Leftrightarrow%20','')" />
+		<area alt="Double fl&egrave;che vers la droite" coords="67, 132, 98, 165" shape="rect" href="javascript:insertion('\\Rightarrow%20','')" />
+		</map>
+		<img class="menu_icon" src="../img/relations.png" width="160" height="169"  usemap="#FPMap1" alt="Relations" />
+	</div>
+	<div id="menu_2" class="off content">
+		<map name="FPMap2" id="FPMap2">
+		<area alt="Diff&eacute;rence" coords="66, 33, 99, 64" shape="rect" href="javascript:insertion('\\diagdown%20','')" />
+		<area alt="Est inclus dans" href="javascript:insertion('\\in%20','')" shape="rect" coords="0, 0, 32, 32" />
+		<area alt="N'est pas inclus dans" href="javascript:insertion('\\notin%20','')" shape="rect" coords="33, 0, 65, 32" />
+		<area alt="Contient" href="javascript:insertion('\\owns%20','')" shape="rect" coords="66, 0, 97, 32" />
+		<area alt="Ensemble vide" href="javascript:insertion('\\varnothing%20','')" shape="rect" coords="131, 0, 159, 32" />
+		<area alt="Intersection" href="javascript:insertion('\\cap%20','')" shape="rect" coords="0, 33, 31, 64" />
+		<area alt="R&eacute;union" href="javascript:insertion('\\cup%20','')" shape="rect" coords="33, 34, 64, 64" />
+		<area alt="Ensemble quotient" href="javascript:insertion('\\diagup%20','')" shape="rect" coords="100, 34, 130, 64" />
+		<area alt="Aleph" href="javascript:insertion('\\aleph%20','')" shape="rect" coords="132, 34, 159, 63" />
+		<area alt="Sous ensemble" href="javascript:insertion('\\subset%20','')" shape="rect" coords="1, 65, 32, 97" />
+		<area alt="Sous ensemble ou &eacute;gal" href="javascript:insertion('\\subseteq%20','')" shape="rect" coords="33, 65, 66, 97" />
+		<area alt="Sur ensemble" href="javascript:insertion('\\supset%20','')" shape="rect" coords="68, 65, 99, 97" />
+		<area alt="sur ensemble ou &eacute;gal" href="javascript:insertion('\\supseteq%20','')" shape="rect" coords="101, 66, 129, 96" />
+		<area alt="Pas sous ensemble ou &eacute;gal" href="javascript:insertion('\\nsubseteq%20','')" shape="rect" coords="33, 99, 65, 130" />
+		<area alt="Pas sous ensemble" href="javascript:insertion('\\nsubset%20','')" shape="rect" coords="1, 99, 31, 130" />
+		<area alt="Pas sur ensemble" coords="67, 99, 97, 129" shape="rect" href="javascript:insertion('\\nsupset%20','')" />
+		<area alt="Pas sur ensemble ou &eacute;gal" coords="101, 100, 129, 129" shape="rect" href="javascript:insertion('\\nsupseteq%20','')" />
+		<area alt="Ensemble des nombres naturels" coords="2, 133, 30, 166" shape="rect" href="javascript:insertion('\\mathbb{N}%20','')" />
+		<area alt="Ensemble des nombres entiers" coords="35, 133, 65, 167" shape="rect" href="javascript:insertion('\\mathbb{Z}%20','')" />
+		<area alt="Ensemble des nombres rationnels" coords="68, 134, 97, 168" shape="rect" href="javascript:insertion('\\mathbb{Q}%20','')" />
+		<area alt="Ensemble des nombres r&eacute;els" coords="101, 133, 128, 167" shape="rect" href="javascript:insertion('\\mathbb{R}%20','')" />
+		<area alt="Ensemble des nombres complexes" coords="130, 133, 158, 167" shape="rect" href="javascript:insertion('\\mathbb{C}%20','')" />
+		</map>
+
+		<img class="menu_icon" src="../img/operateurs_ensemble.png" width="160" height="169" usemap="#FPMap2" alt="Op&eacute;rateurs d'ensemble" />
+	</div>
+	<div id="menu_3" class="off content">
+		<map name="FPMap3" id="FPMap3">
+		<area alt="Tangente" coords="66, 33, 99, 64" shape="rect" href="javascript:insertion('\\tan(',')')" />
+		<area alt="Fonction exponentielle" href="javascript:insertion('e%5e%7b','%7d')" shape="rect" coords="0, 0, 32, 32" />
+		<area alt="Logarithme n&eacute;p&eacute;rien" href="javascript:insertion('\\ln(',')')" shape="rect" coords="33, 0, 65, 32" />
+		<area alt="Fonction exponentielle" href="javascript:insertion('\\exp(',')')" shape="rect" coords="66, 0, 97, 32" />
+		<area alt="Puissance" href="javascript:insertion('%5e%7b','%7d')" shape="rect" coords="131, 0, 159, 32" />
+		<area alt="Sinus" href="javascript:insertion('\\sin(',')')" shape="rect" coords="0, 33, 31, 64" />
+		<area alt="Cosinus" href="javascript:insertion('\\cos(',')')" shape="rect" coords="33, 34, 64, 64" />
+		<area alt="cotangente" href="javascript:insertion('\\cot(',')')" shape="rect" coords="100, 34, 130, 64" />
+		<area alt="Racine carr&eacute;e" href="javascript:insertion('\\sqrt%7b','%7d')" shape="rect" coords="132, 33, 159, 63" />
+		<area alt="Arc sinus" href="javascript:insertion('\\arcsin(',')')" shape="rect" coords="1, 65, 32, 97" />
+		<area alt="Arc cosinus" href="javascript:insertion('\\arccos(',')')" shape="rect" coords="33, 65, 66, 97" />
+		<area alt="Arc tangente" href="javascript:insertion('\\arctan(',')')" shape="rect" coords="68, 65, 99, 97" />
+		<area alt="Racine n-i&egrave;me" href="javascript:insertion('\\sqrt%5b?%5d%7b','%7d')" shape="rect" coords="131, 64, 158, 98" />
+		<area alt="Cosinus hyperbolique" href="javascript:insertion('\\cosh(',')')" shape="rect" coords="33, 99, 65, 130" />
+		<area alt="Sinus hyperbolique" href="javascript:insertion('\\sinh(',')')" shape="rect" coords="1, 99, 31, 130" />
+		<area alt="Tangente hyperbolique" coords="67, 99, 97, 130" shape="rect" href="javascript:insertion('\\tanh(',')')" />
+		<area alt="Cotangente hyperbolique" coords="101, 100, 129, 129" shape="rect" href="javascript:insertion('\\coth(',')')" />
+		<area alt="Argument sinus hyperbolique" coords="2, 133, 31, 166" shape="rect" href="javascript:insertion('\\arsinh(',')')" />
+		<area alt="Cosinus hyperbolique" coords="33, 133, 65, 167" shape="rect" href="javascript:insertion('\\cosh(',')')" />
+		<area alt="Tangente hyperbolique" coords="68, 132, 97, 168" shape="rect" href="javascript:insertion('\\tanh(',')')" />
+		<area alt="Valeur absolue" coords="130, 100, 159, 132" shape="rect" href="javascript:insertion('\\left|','\\right|')" />
+		<area alt="Factorielle" coords="130, 133, 158, 167" shape="rect" href="javascript:insertion('','!%20')" />
+		<area alt="Logarithme" href="javascript:insertion('\\log(',')')" shape="rect" coords="101, 1, 130, 33" />
+		</map>
+
+		<img class="menu_icon" src="../img/fonctions.png" width="160" height="169" usemap="#FPMap3" alt="Fonctions" />
+	</div>
+	<div id="menu_4" class="off content">
+	<map name="FPMap4" id="FPMap4">
+		<area alt="Triple int&eacute;grale" coords="66, 33, 96, 64" shape="rect" href="javascript:insertion('\\iiint ','')" />
+		<area alt="Limite" href="javascript:insertion('\\lim_%7b','\\rightarrow(0)%7d')" shape="rect" coords="0, 0, 32, 32" />
+		<area alt="Somme" href="javascript:insertion('\\sum ','')" shape="rect" coords="33, 0, 65, 32" />
+		<area alt="Produit" href="javascript:insertion('\\prod ','')" shape="rect" coords="66, 0, 97, 32" />
+		<area alt="Limites inf&eacute;rieure et sup&eacute;rieure" href="javascript:insertion('_%7b','%7d%5e%7b?%7d')" shape="rect" coords="131, 0, 159, 32" />
+		<area alt="Int&eacute;grale" href="javascript:insertion('\\int ','')" shape="rect" coords="0, 33, 31, 64" />
+		<area alt="Double int&eacute;grale" href="javascript:insertion('\\iint ','')" shape="rect" coords="33, 33, 64, 64" />
+		<area alt="Limite inf&eacute;rieure" href="javascript:insertion('_%7b','%7d')" shape="rect" coords="132, 33, 159, 63" />
+		<area alt="Int&eacute;grale de courbe" href="javascript:insertion('\\oint ','')" shape="rect" coords="1, 65, 32, 97" />
+		<area alt="Double int&eacute;grale de courbe" href="javascript:insertion('\\oiint ','')" shape="rect" coords="33, 65, 66, 97" />
+		<area alt="Triple int&eacute;grale de courbe" href="javascript:insertion('\\oiiint ','')" shape="rect" coords="68, 65, 99, 97" />
+		<area alt="Limite sup&eacute;rieure" href="javascript:insertion('%5e%7b','%7d')" shape="rect" coords="131, 64, 158, 98" />
+		<area alt="Coproduit" href="javascript:insertion('\\coprod ','')" shape="rect" coords="101, 1, 130, 33" />
+		</map>
+
+		<img class="menu_icon" src="../img/operateurs.png" width="160" height="169"  usemap="#FPMap4" alt="Op&eacute;rateurs" />
+	</div>
+	<div id="menu_5" class="off content">
+	<map name="FPMap5" id="FPMap5">
+		<area alt="Accent circonflexe" coords="66, 33, 99, 64" shape="rect" href="javascript:insertion('\\hat%7b','%7d')" />
+		<area alt="Accent aigu" href="javascript:insertion('\\acute%7b','%7d')" shape="rect" coords="0, 0, 32, 32" />
+		<area alt="Accent grave" href="javascript:insertion('\\grave%7b','%7d')" shape="rect" coords="33, 0, 65, 32" />
+		<area alt="Cercle" href="javascript:insertion('\\mathring%7b','%7d')" shape="rect" coords="131, 0, 159, 32" />
+		<area alt="Fl&egrave;che vectorielle" href="javascript:insertion('\\vec%7b','%7d')" shape="rect" coords="0, 33, 31, 64" />
+		<area alt="Tilde" href="javascript:insertion('\\tilde%7b','%7d')" shape="rect" coords="33, 34, 64, 64" />
+		<area alt="Trait" href="javascript:insertion('\\bar%7b','%7d')" shape="rect" coords="100, 34, 130, 64" />
+		<area alt="Point" href="javascript:insertion('\\dot%7b','%7d')" shape="rect" coords="132, 33, 159, 63" />
+		<area alt="Fl&eacute;che vectorielle large" href="javascript:insertion('\\overrightarrow%7b','%7d')" shape="rect" coords="1, 65, 32, 97" />
+		<area alt="Tilde large" href="javascript:insertion('\\widetilde%7b','%7d')" shape="rect" coords="33, 65, 66, 97" />
+		<area alt="Accent circonflexe large" href="javascript:insertion('\\widehat%7b','%7d')" shape="rect" coords="68, 65, 99, 97" />
+		<area alt="Deux points" href="javascript:insertion('\\ddot%7b','%7d')" shape="rect" coords="131, 64, 158, 98" />
+		<area alt="Ligne au-dessus" href="javascript:insertion('\\overline%7b','%7d')" shape="rect" coords="1, 99, 31, 130" />
+		<area alt="Triple point" coords="130, 100, 159, 132" shape="rect" href="javascript:insertion('\\dddot%7b','%7d')" />
+		<area alt="Br&egrave;ve" href="javascript:insertion('\\breve%7b','%7d')" shape="rect" coords="101, 1, 130, 33" />
+		</map>
+
+		<img class="menu_icon" src="../img/attributs.png" width="160" height="169" usemap="#FPMap5" alt="Attributs" />
+	</div>
+	<div id="menu_6" class="off content">
+	<map name="FPMap6" id="FPMap6">
+		<area alt="Partie r&eacute;elle" coords="66, 33, 99, 64" shape="rect" href="javascript:insertion('\\Re%20','')" />
+		<area alt="Infini" href="javascript:insertion('\\infty%20','')" shape="rect" coords="0, 0, 32, 32" />
+		<area alt="Partiel" href="javascript:insertion('\\partial%20','')" shape="rect" coords="33, 0, 65, 32" />
+		<area alt="Pour tous" href="javascript:insertion('\\forall%20','')" shape="rect" coords="131, 0, 159, 32" />
+		<area alt="H + trait" href="javascript:insertion('\\hbar%20','')" shape="rect" coords="0, 33, 31, 64" />
+		<area alt="Partie imaginaire" href="javascript:insertion('\\Im%20','')" shape="rect" coords="100, 34, 130, 64" />
+		<area alt="P de Weierstrass" href="javascript:insertion('\\wp%20','')" shape="rect" coords="132, 33, 159, 63" />
+		<area alt="Point en bas" href="javascript:insertion('\\ldots%20','')" shape="rect" coords="1, 65, 32, 97" />
+		<area alt="Point au milieu" href="javascript:insertion('\\cdots%20','')" shape="rect" coords="33, 65, 66, 97" />
+		<area alt="Points &agrave; la verticale" href="javascript:insertion('\\vdots%20','')" shape="rect" coords="68, 65, 99, 97" />
+		<area alt="Points vers le bas" href="javascript:insertion('\\iddots','')" shape="rect" coords="131, 64, 159, 97" />
+		<area alt="Nabla" href="javascript:insertion('\\nabla%20','')" shape="rect" coords="68, 0, 99, 32" />
+		<area alt="Points vers le haut" coords="100, 65, 130, 97" shape="rect" href="javascript:insertion('\\ddot%20','')" />
+		<area alt="Existe" href="javascript:insertion('\\exists%20','')" shape="rect" coords="101, 1, 130, 33" />
+		</map>
+
+		<img class="menu_icon" src="../img/autres_symboles.png" width="160" height="169" usemap="#FPMap6"  alt="Autres symboles"  />
+	</div>
+	<div id="menu_7" class="off content">
+		<map name="FPMap7" id="FPMap7">
+		<area alt="Crochets angulaires" coords="33, 33, 64, 64" shape="rect" href="javascript:insertion('\\langle%20','\\rangle%20')" />
+		<area alt="Parenth&egrave;ses arrondies" href="javascript:insertion('(',')')" shape="rect" coords="0, 0, 32, 32" />
+		<area alt="Crochets" href="javascript:insertion('%5b','%5d')" shape="rect" coords="33, 0, 65, 32" />
+		<area alt="Lignes doubles" href="javascript:insertion('\\|%20','\\|%20')" shape="rect" coords="131, 0, 159, 32" />
+		<area alt="Accolades" href="javascript:insertion('\\%7b%20','\\%7d')" shape="rect" coords="0, 33, 31, 64" />
+		<area alt="Accolade en haut" href="javascript:insertion('\\overbrace%20%7b','%7d')" shape="rect" coords="0, 136, 32, 168" />
+		<area alt="Parenth&egrave;ses de groupement" href="javascript:insertion('%7b','%7d')" shape="rect" coords="127, 33, 159, 63" />
+		<area alt="Parenth&egrave;ses arrondies (taille variable)" href="javascript:insertion('\\left(%20','\\right)%20')" shape="rect" coords="1, 65, 32, 97" />
+		<area alt="Crochets (taille variable)" href="javascript:insertion('\\left%5b%20','\\right%5d%20')" shape="rect" coords="33, 65, 66, 97" />
+		<area alt="Lignes doubles (taille variable)" href="javascript:insertion('\\left\\|%20','\\right\\|%20')" shape="rect" coords="131, 64, 159, 97" />
+		<area alt="Lignes simples (taille variable)" coords="100, 65, 130, 97" shape="rect" href="javascript:insertion('\\left|%20','\\right|%20')" />
+		<area alt="Lignes simples" href="javascript:insertion('|','|')" shape="rect" coords="101, 1, 130, 33" />
+		<area alt="Accolades (taille variable)" coords="1, 99, 32, 135" shape="rect" href="javascript:insertion('\\left\\%7b%20','\\right\\%7d%20')" />
+		<area alt="Crochets angulaires (taille variable)" coords="34, 99, 64, 134" shape="rect" href="javascript:insertion('\\left\\langle%20','\\right\\rangle%20')" />
+		<area alt="Accolade en bas" coords="33, 135, 64, 168" shape="rect" href="javascript:insertion('\\underbrace%20%7b','%7d')" />
+		</map>
+
+		<img class="menu_icon" src="../img/parentheses.png" width="160" height="169" usemap="#FPMap7"  alt="Parenth&egrave;ses"  />
+	</div>
+	<div id="menu_8" class="off content">
+	<map name="FPMap8" id="FPMap8">
+		<area alt="Taille 1" coords="33, 33, 65, 64" shape="rect" href="javascript:insertion('\\large%20\n','')" />
+		<area alt="Bleu" href="javascript:insertion('\\color%7bblue%7d\n','')" shape="rect" coords="0, 0, 32, 32" />
+		<area alt="Vert" href="javascript:insertion('\\color%7bgreen%7d\n','')" shape="rect" coords="33, 0, 65, 32" />
+		<area alt="Matrice sans encadrement" href="javascript:insertion('\\begin%7bmatrix%7d\n\ta1%20&amp;%20a2%20\\\\\n\ta3%20&amp;%20a4%20\\\\\n\\end%7bmatrix%7d\n','')" shape="rect" coords="131, 138, 159, 167" />
+		<area alt="Taille 0" href="javascript:insertion('\\small%20\n','')" shape="rect" coords="0, 33, 31, 64" />
+		<area alt="Rouge" href="javascript:insertion('\\color%7bred%7d\n','')" shape="rect" coords="68, 0, 99, 32" />
+		<area alt="Exposant apr&egrave;s" href="javascript:insertion('','%5e?')" shape="rect" coords="67, 66, 97, 98" />
+		<area alt="Taille 3" coords="68, 33, 99, 64" shape="rect" href="javascript:insertion('\\Large%20\n','')" />
+		<area alt="Taille 4" coords="101, 34, 129, 64" shape="rect" href="javascript:insertion('\\Large%20\n','')" />
+		<area alt="Taille 5" coords="130, 33, 159, 64" shape="rect" href="javascript:insertion('\\LARGE%20\n','')" />
+		<area alt="Exposant avant" coords="1, 65, 31, 98" shape="rect" href="javascript:insertion('%5e','\\!%20')" />
+		<area alt="Esposant en haut" coords="34, 65, 64, 97" shape="rect" href="javascript:insertion('\\overset%20%7b','%7d%7b%20%7d')" />
+		<area alt="Matrice avec accolades" coords="97, 138, 129, 168" shape="rect" href="javascript:insertion('\\begin%7bBmatrix%7d\n\ta1%20&amp;%20a2%20\\\\\n\ta3%20&amp;%20a4%20\\\\\n\\end%7bBmatrix%7d\n','')" />
+		<area alt="Matrice avec parenth&egrave;ses" href="javascript:insertion('\\begin%7bpmatrix%7d\n\ta1%20&amp;%20a2%20\\\\\n\ta3%20&amp;%20a4%20\\\\\n\\end%7bpmatrix%7d\n','')" shape="rect" coords="65, 138, 96, 168" />
+		<area alt="Matrice avec crochets" href="javascript:insertion('\\begin%7bbmatrix%7d\n\ta1%20&amp;%20a2%20\\\\\n\ta3%20&amp;%20a4%20\\\\\n\\end%7bbmatrix%7d\n','')" shape="rect" coords="32, 137, 64, 168" />
+		<area alt="Matrice avec barres" href="javascript:insertion('\\begin%7bvmatrix%7d\n\ta1%20&amp;%20a2%20\\\\\n\ta3%20&amp;%20a4%20\\\\\n\\end%7bvmatrix%7d\n','')" shape="rect" coords="2, 136, 33, 168" />
+		<area alt="Indice &agrave; gauche" href="javascript:insertion('_b%20','x')" shape="rect" coords="2, 101, 30, 133" />
+		<area alt="Indice en bas" href="javascript:insertion('\\underset%7b','%7d%7bx%7d')" shape="rect" coords="34, 101, 62, 133" />
+		<area alt="Indice &agrave; droite" href="javascript:insertion('_%7b','%7d')" shape="rect" coords="66, 101, 95, 133" />
+		<area alt="Syst&egrave;me d'&eacute;quations" href="javascript:insertion('\\left\\%7b\n\\begin%7barray%7d%7brcl%7d\n\t?%20&amp;=&amp;%20?%20\\\\\n\t?%20&amp;=&amp;%20?\n\\end%7barray%7d\n\\right\n','')" shape="rect" coords="98, 101, 159, 133" />
+		<area alt="Tabulation" coords="129, 66, 159, 100" shape="rect" href="javascript:insertion('\t','')" />
+		<area alt="Retour &agrave; la ligne" href="javascript:insertion('\n','')" shape="rect" coords="129, 1, 159, 31" />
+		<area alt="Calligraphie" coords="98, 65, 127, 99" shape="rect" href="javascript:insertion('\\mathcal%7b','%7d')" />
+		<area alt="Roman" coords="100, 1, 128, 32" shape="rect" href="javascript:insertion('\\mathrm%7b','%7d')" />
+		</map>
+
+		<img class="menu_icon" src="../img/couleurs.png" width="160" height="169" usemap="#FPMap8"  alt="Formatages"  />
+	</div>
+	<div id="menu_9" class="off content">
+		<map name="FPMap9" id="FPMap9">
+		<area alt="Alpha" coords="1, 1, 25, 26" shape="rect" href="javascript:insertion('\\alpha%20','')" />
+		<area alt="Beta" coords="26, 1, 50, 26" shape="rect" href="javascript:insertion('\\beta%20','')" />
+		<area alt="Chi" href="javascript:insertion('\\chi%20','')" shape="rect" coords="52, 1, 74, 26" />
+		<area alt="Delta" href="javascript:insertion('\\delta%20','')" shape="rect" coords="75, 1, 95, 26" />
+		<area alt="Varepsilon" href="javascript:insertion('\\varepsilon%20','')" shape="rect" coords="97, 1, 115, 26" />
+		<area alt="phi" href="javascript:insertion('\\phi%20','')" shape="rect" coords="118, 1, 139, 26" />
+		<area alt="Gamma" href="javascript:insertion('\\gamma%20','')" shape="rect" coords="141, 1, 159, 26" />
+		<area alt="Eta" href="javascript:insertion('\\eta%20','')" shape="rect" coords="1, 27, 25, 48" />
+		<area alt="Iota" href="javascript:insertion('\\iota%20','')" shape="rect" coords="27, 27, 49, 48" />
+		<area alt="Varphi" href="javascript:insertion('\\varphi%20','')" shape="rect" coords="51, 27, 72, 48" />
+		<area alt="Kappa" href="javascript:insertion('\\kappa%20','')" shape="rect" coords="75, 27, 93, 48" />
+		<area alt="Lambda" href="javascript:insertion('\\lambda%20','')" shape="rect" coords="96, 27, 114, 48" />
+		<area alt="Mu" href="javascript:insertion('\\mu%20','')" shape="rect" coords="118, 27, 139, 48" />
+		<area alt="Nu" href="javascript:insertion('\\nu%20','')" shape="rect" coords="140, 27, 159, 48" />
+		<area alt="Omicron" href="javascript:insertion('o%20','')" shape="rect" coords="2, 49, 25, 68" />
+		<area alt="Pi" href="javascript:insertion('\\pi%20','')" shape="rect" coords="28, 49, 49, 68" />
+		<area alt="Th&eacute;ta" href="javascript:insertion('\\theta%20','')" shape="rect" coords="50, 49, 71, 68" />
+		<area alt="Rho" href="javascript:insertion('\\rho%20','')" shape="rect" coords="75, 49, 94, 68" />
+		<area alt="Sigma" href="javascript:insertion('\\sigma%20','')" shape="rect" coords="95, 49, 116, 68" />
+		<area alt="Tau" href="javascript:insertion('\\tau%20','')" shape="rect" coords="119, 49, 138, 68" />
+		<area alt="Upsilon" href="javascript:insertion('\\upsilon%20','')" shape="rect" coords="140, 49, 159, 68" />
+		<area alt="Om&eacute;ga" href="javascript:insertion('\\omega%20','')" shape="rect" coords="28, 69, 47, 90" />
+		<area alt="Xi" href="javascript:insertion('\\xi%20','')" shape="rect" coords="51, 68, 71, 90" />
+		<area alt="Psi" href="javascript:insertion('\\psi%20','')" shape="rect" coords="74, 69, 94, 90" />
+		<area alt="Dz&eacute;ta" href="javascript:insertion('\\zeta%20','')" shape="rect" coords="98, 69, 115, 90" />
+		<area alt="Delta majuscule" href="javascript:insertion('\\Delta%20','')" shape="rect" coords="1, 111, 26, 134" />
+		<area alt="Gamma majuscule" href="javascript:insertion('\\Gamma%20','')" shape="rect" coords="27, 111, 50, 134" />
+		<area alt="Lamda majuscule" href="javascript:insertion('\\Lambda%20','')" shape="rect" coords="51, 111, 75, 134" />
+		<area alt="Om&eacute;ga majuscule" href="javascript:insertion('\\Omega%20','')" shape="rect" coords="76, 111, 102, 134" />
+		<area alt="Phi majuscule" href="javascript:insertion('\\Phi%20','')" shape="rect" coords="103, 111, 132, 134" />
+		<area alt="Pi majuscule" href="javascript:insertion('\\Pi%20','')" shape="rect" coords="133, 111, 158, 134" />
+		<area alt="Psi majuscule" href="javascript:insertion('\\Psi%20','')" shape="rect" coords="1, 135, 26, 156" />
+		<area alt="Sigma majuscule" href="javascript:insertion('\\Sigma%20','')" shape="rect" coords="27, 135, 51, 156" />
+		<area alt="Th&eacute;ta majuscule" href="javascript:insertion('\\Theta%20','')" shape="rect" coords="52, 135, 74, 156" />
+		<area alt="Upsilon majuscule" href="javascript:insertion('\\Upsilon%20','')" shape="rect" coords="75, 135, 101, 156" />
+		<area alt="Xi majuscule" href="javascript:insertion('\\Xi%20','')" shape="rect" coords="102, 135, 131, 156" />
+		</map>
+		<img class="menu_icon" src="../img/lettres_grecques.png" width="160" height="169" usemap="#FPMap9"  alt="Alphabet grec" />
+
+	</div>
+
+</div>
+	<div id="text" class="on droite">
+		<textarea  id="TEX" rows="40" cols="54" style="width: 378px; height: 258px; border: 0px;  font-family: monospace; font-size: 12px; overflow:hidden; "></textarea>
+	</div>	
+	<div id="rendu" class="off droite">
+		<p style="text-align: center;">
+		<img alt="rendu" id="img_rendu"  src="../img/loading.gif" style="border: 10px solid #FFFFFF" />
+		</p>
+	</div>
+</div>	
+<div id="buttons">
+		<button type="button" id="brendu" onclick="rendu_text();">Aper&ccedil;u</button>
+    	<button type="submit" name="ok" onclick="return onOK();">Valider</button>
+    	<button type="button" name="cancel" onclick="return onCancel();">Annuler</button>
+</div>
+</body>
+</html>

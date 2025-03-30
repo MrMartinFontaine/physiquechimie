@@ -1,0 +1,540 @@
+SET @@global.sql_mode= '';
+
+CREATE TABLE  IF NOT EXISTS `cdt_agenda` (
+  `ID_agenda` mediumint(8) unsigned NOT NULL auto_increment,
+  `prof_ID` smallint(5) unsigned NOT NULL default '0',
+  `classe_ID` smallint(5) unsigned NOT NULL default '0',
+  `gic_ID` smallint(5) unsigned NOT NULL default '0',
+  `matiere_ID` smallint(5) unsigned NOT NULL default '0',
+  `groupe` varchar(255) NOT NULL default '',
+  `semaine` varchar(255) NOT NULL default '',
+  `jour_pointe` varchar(255) NOT NULL default '',
+  `heure` tinyint(4) NOT NULL default '0',
+  `duree` varchar(255) default NULL,
+  `heure_debut` varchar(255) default NULL,
+  `heure_fin` varchar(255) default NULL,
+  `theme_activ` varchar(255) default NULL,
+  `type_activ` varchar(255) default NULL,
+  `couleur_activ` varchar(7) NOT NULL DEFAULT '#000066',
+  `a_faire` text,
+  `activite` text,
+  `rq` text default NULL,
+  `code_date` varchar(255) NOT NULL default '',
+  `date_visa` date NOT NULL default '0001-01-01',
+  `edt_modif` enum('O','N') NOT NULL DEFAULT 'N',
+  `partage` enum('O','N') NOT NULL DEFAULT 'N',
+  `emploi_ID` smallint(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY `ID_agenda` (`ID_agenda`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_classe` (
+  `ID_classe` smallint(5) unsigned NOT NULL auto_increment,
+  `nom_classe` varchar(255) NOT NULL default '',
+  `passe_classe` varchar(32) default NULL,
+  `code_classe` varchar(20)  default NULL,
+  PRIMARY KEY  (`ID_classe`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_emploi_du_temps` (
+  `ID_emploi` smallint(5) unsigned NOT NULL auto_increment,
+  `prof_ID` smallint(5) unsigned NOT NULL default '0',
+  `jour_semaine` enum('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche') NOT NULL default 'Lundi',
+  `semaine` varchar(255) NOT NULL default 'A et B',
+  `heure` tinyint(2) unsigned NOT NULL default '0',
+  `classe_ID` smallint(5) unsigned default '0',
+  `gic_ID` smallint(5) unsigned NOT NULL default '0',
+  `groupe` varchar(255) default 'Classe entière',
+  `matiere_ID` smallint(5) unsigned default NULL,
+  `heure_debut` varchar(255) default NULL,
+  `heure_fin` varchar(255) default NULL,
+  `duree` varchar(255) default NULL,
+  `edt_exist_debut` date NOT NULL default '0001-01-01',
+  `edt_exist_fin` date NOT NULL default '0001-01-01',
+  `couleur_cellule` varchar(7) DEFAULT '#CAFDBD',
+  `couleur_police` varchar(7) DEFAULT '#000000',
+  `ImportEDT` varchar(255) NOT NULL DEFAULT 'NON',
+  `ID_Import` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `fusion_gic` enum('O','N') NOT NULL DEFAULT 'N',
+  `verrou_remplace` smallint(5) NOT NULL DEFAULT '0',
+  PRIMARY KEY  (`ID_emploi`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_fichiers_joints` (
+  `ID_fichiers` smallint(5) unsigned NOT NULL auto_increment,
+  `agenda_ID` mediumint(8) unsigned NOT NULL default '0',
+  `ind_position` tinyint(3) NOT NULL default '1',
+  `nom_fichier` varchar(255) NOT NULL default '',
+  `prof_ID` smallint(5) unsigned NOT NULL default '0',
+  `type` enum('Cours','Travail') default 'Cours',
+  `t_code_date` varchar(255) default NULL,
+  PRIMARY KEY  (`ID_fichiers`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_matiere` (
+  `ID_matiere` smallint(5) unsigned NOT NULL auto_increment,
+  `nom_matiere` varchar(255) NOT NULL default '',
+  `code_matiere` varchar(20)  default NULL,
+  PRIMARY KEY  (`ID_matiere`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1; 
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_prof` (
+  `ID_prof` smallint(5) unsigned NOT NULL auto_increment,
+  `nom_prof` varchar(255) NOT NULL default '',
+  `passe` varchar(255) default NULL,
+  `identite` varchar(255) default NULL,
+  `email` varchar(255) default NULL,
+  `email_diffus_restreint` enum('O','N') NOT NULL DEFAULT 'N',
+  `gestion_sem_ab` enum('O','N') NOT NULL default 'O',
+  `publier_cdt` enum('O','N') NOT NULL default 'O',
+  `publier_travail` enum('O','N') NOT NULL default 'O',
+  `stop_cdt` enum('O','N') NOT NULL DEFAULT 'N',
+  `date_maj` date NOT NULL default '0001-01-01',
+  `droits` tinyint(3) unsigned NOT NULL default '0',
+  `path_fichier_perso` varchar(255) default NULL,
+  `xinha_editlatex` enum('O','N') NOT NULL default 'N',
+  `xinha_equation` enum('O','N') NOT NULL default 'N',
+  `xinha_stylist` enum('O','N') NOT NULL default 'N',
+  `acces_rapide` enum('O','N') NOT NULL DEFAULT 'O',
+  `afficher_messages` enum('O','N') NOT NULL DEFAULT 'O', 
+  `masque_edt_cloture` enum('O','N') NOT NULL DEFAULT 'N',   
+  `message_invite` enum('O','N') NOT NULL DEFAULT 'N',
+  `Num_Import` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `lien_invite_dir` varchar(255) NULL,
+  `datefin_invite_dir` date NULL,
+  `lien_invite_prof` varchar(255) NULL,
+  `datefin_invite_prof` date NULL,
+  `id_etat` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `id_remplace` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `date_declare_absent` date NOT NULL DEFAULT '0001-01-01',
+  `type_affich` tinyint(4) NOT NULL DEFAULT '1',
+  `PrimoConn` enum('O','N') NOT NULL DEFAULT 'N',
+  `ancien_prof` enum('O','N') DEFAULT 'N',
+  PRIMARY KEY  (`ID_prof`),
+  UNIQUE KEY `nom_prof` (`nom_prof`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+INSERT INTO `cdt_prof` ( `ID_prof` , `nom_prof` , `passe` , `identite` ,`droits` ) VALUES (1, 'Administrateur', 
+'$2y$10$J9yakmjaV/EFLzIjpLddU.XGKPHeFuUnx0XqQhmBc8zELhMLkcvFm' , 'Administrateur', 1) ;
+
+
+
+CREATE TABLE IF NOT EXISTS `cdt_semaine_ab` (
+  `ID_sem` tinyint(3) NOT NULL auto_increment,
+  `semaine` enum('A','B') NOT NULL default 'A',
+  `semaine_alter` enum('Sem 1','Sem 2','Sem 3','Sem 4') NOT NULL DEFAULT 'Sem 1',
+  `num_semaine` tinyint(3) NOT NULL default '0',
+  `s_code_date` varchar(255) NOT NULL default '',
+  `date_lundi` varchar(255) NOT NULL default '',
+  `date_dimanche` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`ID_sem`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+CREATE TABLE  IF NOT EXISTS `cdt_travail` (
+  `ID_travail` int(10) unsigned NOT NULL auto_increment,
+  `agenda_ID` mediumint(8) unsigned NOT NULL default '0',
+  `ind_position` tinyint(3) NOT NULL default '0',
+  `prof_ID` smallint(5) unsigned NOT NULL default '0',
+  `classe_ID` smallint(5) unsigned NOT NULL default '0',
+  `gic_ID` smallint(5) unsigned NOT NULL default '0',
+  `matiere_ID` smallint(5) unsigned NOT NULL default '0',
+  `groupe` varchar(255) NOT NULL default '',
+  `semaine` varchar(255) NOT NULL default '',
+  `jour_pointe` varchar(255) NOT NULL default '',
+  `heure` varchar(255) NOT NULL default '',
+  `code_date` varchar(255) NOT NULL default '',
+  `t_groupe` varchar(255) NOT NULL default '',
+  `t_semaine` varchar(255) default NULL,
+  `t_jour_pointe` varchar(255) default NULL,
+  `t_code_date` varchar(255) NOT NULL default '',
+  `travail` text,
+  `charge` varchar(10) DEFAULT NULL,
+  `eval` enum('O','N') NOT NULL DEFAULT 'N',
+  PRIMARY KEY  (`ID_travail`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_type_activite` (
+  `ID_activite` smallint(5) unsigned NOT NULL auto_increment,
+  `ID_prof` smallint(5) unsigned NOT NULL default '0',
+  `activite` varchar(255) default NULL,
+  `pos_typ` smallint(5) unsigned NOT NULL default '1',
+  `couleur_activite` varchar(7) NOT NULL DEFAULT '#000066',
+  PRIMARY KEY  (`ID_activite`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_groupe` ( 
+  `ID_groupe` smallint(5) unsigned NOT NULL auto_increment, 
+  `groupe` varchar(255) NOT NULL default '', 
+  `code_groupe` varchar(20) default NULL, 
+  PRIMARY KEY  (`ID_groupe`), 
+  UNIQUE KEY `groupe` (`groupe`) 
+
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+INSERT INTO `cdt_groupe` VALUES (1, 'Classe entière','classe_entiere');
+INSERT INTO `cdt_groupe` VALUES (2, 'Groupe A','groupe_a');
+INSERT INTO `cdt_groupe` VALUES (3, 'Groupe B','groupe_b');
+INSERT INTO `cdt_groupe` VALUES (4, 'Groupe Réduit','groupe_reduit');
+
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_progression` (
+  `ID_progression` tinyint(3) unsigned NOT NULL auto_increment,
+  `prof_ID` smallint(5) unsigned NOT NULL default '0',
+  `titre_progression` varchar(255) NOT NULL default '',
+  `contenu_progression` LONGTEXT NULL,
+  PRIMARY KEY  (`ID_progression`)
+)ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_message_contenu` (
+  `ID_message` smallint(5) NOT NULL auto_increment,
+  `message` text NOT NULL,
+  `prof_ID` smallint(5) unsigned NOT NULL default '0',
+  `date_envoi` DATETIME NOT NULL DEFAULT '0001-01-01 00:00:00',
+  `date_fin_publier` date NOT NULL default '0001-01-01',
+  `online` enum('O','N') NOT NULL default 'O',
+  `dest_ID` tinyint(4) NOT NULL default '0',
+  `pp_classe_ID` smallint(5) NOT NULL default '0',
+  `pp_groupe_ID` smallint(5) NOT NULL default '0',
+  PRIMARY KEY  (`ID_message`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+        
+		
+CREATE TABLE  IF NOT EXISTS `cdt_message_destinataire` (
+  `ID_dest` smallint(5) unsigned NOT NULL auto_increment,
+  `message_ID` smallint(5) unsigned NOT NULL default '0',
+  `classe_ID` smallint(5) unsigned NOT NULL default '0',
+  `groupe_ID` smallint(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`ID_dest`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+CREATE TABLE  IF NOT EXISTS `cdt_message_destinataire_profs` (
+  `ID_dest` smallint(5) unsigned NOT NULL auto_increment,
+  `message_ID` smallint(5) unsigned NOT NULL default '0',
+  `prof_ID` smallint(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`ID_dest`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_evenement_contenu` (
+  `ID_even` smallint(5) NOT NULL AUTO_INCREMENT,
+  `titre_even` varchar(80) NOT NULL DEFAULT '',
+  `code_mode` tinyint(2) NOT NULL DEFAULT '0',
+  `code_theme` tinyint(2) NOT NULL DEFAULT '0',
+  `detail` text,
+  `prof_ID` smallint(4) unsigned NOT NULL DEFAULT '0',
+  `date_debut` date NOT NULL DEFAULT '0001-01-01',
+  `heure_debut` varchar(6) NOT NULL DEFAULT '00h00',
+  `date_fin` date NOT NULL DEFAULT '0001-01-01',
+  `heure_fin` varchar(6) NOT NULL DEFAULT '00h00',
+  `pb_dates` tinyint(1) NOT NULL DEFAULT '0',
+  `dest_ID` tinyint(4) NOT NULL DEFAULT '0',
+  `date_modif` date NOT NULL DEFAULT '0001-01-01',
+  `date_envoi` date DEFAULT '0001-01-01',
+  `date_crea` date NOT NULL DEFAULT '0001-01-01',
+  `etat` varchar(9) DEFAULT NULL,
+  `classes_conc` varchar(60) DEFAULT NULL,
+  `classes_eff` smallint(4) NULL DEFAULT '0',
+  `details_sup` text,
+  `accompagnateurs` text,
+  `cout_elv` float DEFAULT '0',
+  `cout_glob` float DEFAULT '0',
+  PRIMARY KEY  (`ID_even`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_evenement_destinataire` (
+  `ID_dest` smallint(5) unsigned NOT NULL auto_increment,
+  `even_ID` smallint(5) unsigned NOT NULL default '0',
+  `classe_ID` smallint(5) unsigned NOT NULL default '0',
+  `groupe_ID` smallint(5) unsigned NOT NULL default '0',
+  `visible` enum('O','N') NOT NULL default 'N',
+  PRIMARY KEY  (`ID_dest`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+CREATE TABLE IF NOT EXISTS `cdt_evenement_acteur` (
+  `ID_act` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `even_ID` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `classe_ID` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `groupe_ID` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID_act`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+
+CREATE TABLE  IF NOT EXISTS `cdt_prof_principal` (
+  `ID_pp` smallint(5) unsigned NOT NULL auto_increment,
+  `pp_prof_ID` smallint(5) NOT NULL default '0',
+  `pp_classe_ID` smallint(5) NOT NULL default '0',
+  `pp_groupe_ID` smallint(5) NOT NULL default '0',
+  PRIMARY KEY  (`ID_pp`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+CREATE TABLE  IF NOT EXISTS `cdt_message_fichiers` (
+  `ID_mesfich` smallint(5) unsigned NOT NULL auto_increment,
+  `message_ID` smallint(5) NOT NULL default '0',
+  `nom_fichier` varchar(255) NOT NULL default '',
+  `prof_ID` smallint(5) NOT NULL default '0',
+  PRIMARY KEY  (`ID_mesfich`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_groupe_interclasses` (
+  `ID_gic` smallint(5) unsigned NOT NULL auto_increment,
+  `prof_ID` smallint(5) unsigned NOT NULL default '0',
+  `nom_gic` varchar(255) NOT NULL default '',
+  `commentaire_gic` text,
+  `code_gic` varchar(20) default NULL,
+  PRIMARY KEY  (`ID_gic`)
+) ENGINE=MyISAM  AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+CREATE TABLE  IF NOT EXISTS `cdt_groupe_interclasses_classe` (
+  `ID_gic_classe` smallint(5) unsigned NOT NULL auto_increment,
+  `gic_ID` smallint(5) unsigned NOT NULL default '0',
+  `classe_ID` smallint(5) unsigned NOT NULL default '0',
+  `groupe_ID` smallint(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`ID_gic_classe`)
+) ENGINE=MyISAM  AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+CREATE TABLE  IF NOT EXISTS `cdt_params` (
+  `param_nom` varchar(32) NOT NULL default '',
+  `param_val` text,
+  `param_desc` varchar(255) default NULL,
+  PRIMARY KEY  (`param_nom`)
+) ENGINE=MyISAM ;
+
+
+INSERT INTO `cdt_params` VALUES ('version', 'Version 5.5.1.0 standard ', 'Version du logiciel');
+INSERT INTO `cdt_params` VALUES ('ind_maj_base', '5510', 'indice de la version');
+INSERT INTO `cdt_params` VALUES ('date_maj_base', '15/09/2017, 00:00 pm', 'date de la mise à jour');
+INSERT INTO `cdt_params` VALUES ('old_cdt_access', 'Non', 'Acces ancien cahier de textes');
+INSERT INTO `cdt_params` VALUES ('pp_diffusion', 'Oui', 'Autoriser les profs principaux &agrave; diffuser un message aux coll&egrave;gues');
+INSERT INTO `cdt_params` VALUES ('nom_etab', 'Mon &eacute;tablissement 2', 'Nom de l''&eacute;tablissement');
+INSERT INTO `cdt_params` VALUES ('url_etab', '', 'Adresse Web de l''etablissement');
+INSERT INTO `cdt_params` VALUES ('url_logo_etab', '', 'Adresse Web du logo de l''etablissement');
+INSERT INTO `cdt_params` VALUES ('session_timeout', '3600', 'Temps de cloture de session en cas d''inactivite;');
+INSERT INTO `cdt_params` VALUES ('cdt_LDAP', 'Non', 'Version LDAP du CDT ?');
+INSERT INTO `cdt_params` VALUES ('cdt_LCS', 'Non', 'Plugin LCS du CDT ?');
+INSERT INTO `cdt_params` VALUES ('libelle_devoir', 'Ds sur tab', 'Libelle attribue par defaut aux (devoirs,controles,ds...)');
+INSERT INTO `cdt_params` VALUES ('visa_stop_edition', 'Oui', 'Interdit la modification des fiches saisies si leur date est anterieure &agrave; la date du visa');
+INSERT INTO `cdt_params` VALUES ('url_deconnecte_eleve', 'index.php', 'Url de sortie apres deconnexion du cdt' );
+INSERT INTO `cdt_params` VALUES ('url_deconnecte_prof', 'index.php', 'Url de sortie apres deconnexion du cdt' );
+INSERT INTO `cdt_params` VALUES ('module_absence', 'Non', 'Activation du module absence');
+INSERT INTO `cdt_params` ( `param_nom` , `param_val` , `param_desc` ) VALUES ('choix_module_absence', '2', 'Choix du module de gestion des absences et suivi carnets - Version simple = 1 / Version elaboree = 2');
+INSERT INTO `cdt_params` VALUES ('Maj_Archives', 'Oui', 'MAJ des Archives a faire apres version 4.72');
+INSERT INTO `cdt_params` VALUES ('Publication_Import', 'Oui','Autorisation de publier l\'import des edt');
+INSERT INTO `cdt_params` VALUES ('Import', '', 'Emploi du temps importe');
+INSERT INTO `cdt_params` VALUES ('modif_passe', 'Oui', 'Enseignant peut changer son mot de passe');
+INSERT INTO `cdt_params` VALUES ('modif_login', 'Non', 'Enseignant peut changer son login');
+INSERT INTO `cdt_params` VALUES ('libelle_semaine', '0', 'Libelle de la semaine 0 = A et B  & 1= Paire et impaire ');
+INSERT INTO `cdt_params` VALUES ('facebook_icon', 'Oui', 'Affichage icone facebook');
+INSERT INTO `cdt_params` VALUES ('site_ferme', 'Non', 'Etat du site Non=ouvert Oui=ferme');
+INSERT INTO `cdt_params` VALUES ('devoir_planif', 'Oui', 'Autoriser la planification de devoirs en dehors des heures de cours');
+INSERT INTO `cdt_params` VALUES ('pp_multiclass', 'Oui', 'Autoriser un prof a etre PP de plusieurs classes');
+INSERT INTO `cdt_params` VALUES ('pp_groupe', 'Oui', 'Autoriser un prof a etre PP d un groupe');
+INSERT INTO `cdt_params` VALUES ('prof_mess_pp', 'Non', 'Autoriser la publication de messages par les enseignants vers leurs collegues');
+INSERT INTO `cdt_params` VALUES ('prof_mess_all', 'Non', 'Autoriser la publication de messages par les enseignants vers toutes les classes');
+INSERT INTO `cdt_params` VALUES ('date_debut_annee', NULL, 'Date de debut annee scolaire');
+INSERT INTO `cdt_params` VALUES ('date_fin_annee', NULL, 'Date de fin annee scolaire');
+INSERT INTO `cdt_params` ( `param_nom` , `param_val` , `param_desc` ) VALUES ( 'affichage_compteur', 'Non', 'Affiche ou non un compteur ultra simpliste');
+INSERT INTO `cdt_params` ( `param_nom` , `param_val` , `param_desc` ) VALUES ( 'compteur', '0', 'Le compteur de consulter');
+INSERT INTO `cdt_params` ( `param_nom` , `param_val` , `param_desc` ) VALUES ( 'date_raz_compteur', '20110925', 'Date de remise a zero du compteur');
+INSERT INTO `cdt_params` (`param_nom` ,`param_val` ,`param_desc`) VALUES ('time_zone', 'Europe/Paris', 'Zone de temps de votre localisation géographique');
+INSERT INTO `cdt_params` VALUES ('MAJ_Partage_4911', 'Non', 'MAJ effectuee pour Partage dans Archives ?');
+INSERT INTO `cdt_params` VALUES ('acces_inspection_all_cdt', 'Non', 'Acces systematique aux cahiers par les inspecteurs');
+INSERT INTO `cdt_params` VALUES ('MAJ_Latex_4909', 'Oui', 'MAJ effectuee  pour Latex ?');
+INSERT INTO `cdt_params` VALUES ('URL_Piwik', '', 'Adresse de Piwik');
+INSERT INTO `cdt_params` VALUES ('ID_Piwik', '1', 'ID de site de Piwik');
+INSERT INTO `cdt_params` ( `param_nom` , `param_val` , `param_desc` ) VALUES ( 'menu_deroul', 'Oui', 'Oui:Menu deroulant pour les profs dans la page index - Non:Zone de saisie pour les profs');
+INSERT INTO `cdt_params` VALUES ('even_nom_valid_mail', NULL , 'Personne ayant valide le projet et declenchant envoi de mels');
+INSERT INTO `cdt_params` VALUES ('even_adr_valid_mail', NULL , 'Adresse mail de la personne validant');
+INSERT INTO `cdt_params` VALUES ('even_dest_mail', NULL , 'Adresse mel des personnes souhaitant etre informe de la validation');
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_plages_horaires` (
+  `ID_plage` tinyint(3) unsigned NOT NULL,
+  `h1` char(2) default NULL,
+  `mn1` char(2) default NULL,
+  `h2` char(2) default NULL,
+  `mn2` char(2) default NULL,
+  PRIMARY KEY  (`ID_plage`)
+) ENGINE=MyISAM ;
+
+
+
+INSERT INTO `cdt_plages_horaires` VALUES (1, '08', '00', '09', '00');
+INSERT INTO `cdt_plages_horaires` VALUES (2, '09', '00', '10', '00');
+INSERT INTO `cdt_plages_horaires` VALUES (3, '10', '00', '11', '00');
+INSERT INTO `cdt_plages_horaires` VALUES (4, '11', '00', '12', '00');
+INSERT INTO `cdt_plages_horaires` VALUES (5, '12', '00', '13', '00');
+INSERT INTO `cdt_plages_horaires` VALUES (6, '13', '00', '14', '00');
+INSERT INTO `cdt_plages_horaires` VALUES (7, '14', '00', '15', '00');
+INSERT INTO `cdt_plages_horaires` VALUES (8, '15', '00', '16', '00');
+INSERT INTO `cdt_plages_horaires` VALUES (9, '16', '00', '17', '00');
+INSERT INTO `cdt_plages_horaires` VALUES (10, '17', '00', '18', '00');
+INSERT INTO `cdt_plages_horaires` VALUES (11, '18', '00', '19', '00');
+INSERT INTO `cdt_plages_horaires` VALUES (12, '19', '00', '20', '00');
+
+
+CREATE TABLE  IF NOT EXISTS `cdt_archive` (
+	`NumArchive` SMALLINT( 5 ) UNSIGNED NOT NULL AUTO_INCREMENT ,
+	`NomArchive` VARCHAR( 255 ) NOT NULL ,
+	`DateArchive` DATE NOT NULL ,
+	PRIMARY KEY ( `NumArchive` )
+) ENGINE=MyISAM ;
+
+CREATE TABLE  IF NOT EXISTS `cdt_edt` (
+  `ID_emploi` smallint(5) unsigned NOT NULL auto_increment,
+  `prof_ref` varchar(255) default NULL,
+  `jour_semaine` enum('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche') default NULL,
+  `semaine` varchar(255) default NULL,
+  `heure` tinyint(2) unsigned default NULL,
+  `classe_ID` smallint(5) unsigned default NULL,
+  `matiere_ID` smallint(5) unsigned default NULL,
+  `heure_debut` varchar(255) default NULL,
+  `heure_fin` varchar(255) default NULL,
+  `couleur_cellule` varchar(255) default NULL,
+  `IdentiteProf` varchar(255) default NULL,
+  `groupe` varchar(255) NOT NULL default 'Classe entière',
+  PRIMARY KEY  (`ID_emploi`)
+) ENGINE=MyISAM  AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+CREATE TABLE  IF NOT EXISTS `cdt_invite` (
+  `ID_invite` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `prof_ID` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `classe_ID` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `gic_ID` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `matiere_ID` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `NumArchive` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID_invite`)
+) ENGINE=MyISAM  AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+CREATE TABLE  IF NOT EXISTS `cdt_emploi_du_temps_partage` (
+  `Partage_ID` smallint(5) NOT NULL auto_increment,
+  `ID_emploi` smallint(5) NOT NULL,
+  `profpartage_ID` smallint(5) NOT NULL,
+  PRIMARY KEY  (`Partage_ID`)
+) ENGINE=MyISAM  ;
+
+CREATE TABLE  IF NOT EXISTS `cdt_message_modif` (
+   `ID_modif` smallint(5) NOT NULL auto_increment,
+   `ID_message` smallint(5) NOT NULL,
+   `prof_ID` smallint(5) unsigned NOT NULL default '0',
+   `date_envoi` DATETIME NOT NULL DEFAULT '0001-01-01 00:00:00',
+   PRIMARY KEY  (`ID_modif`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+CREATE TABLE  IF NOT EXISTS `cdt_remplacement` (
+  `ID_remplace` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `titulaire_ID` smallint(5) NOT NULL,
+  `remplacant_ID` smallint(5) NOT NULL,
+  `date_debut_remplace` date NOT NULL DEFAULT '0001-01-01',
+  `date_fin_remplace` date NOT NULL DEFAULT '0001-01-01',
+  `date_creation_remplace` date NOT NULL DEFAULT '0001-01-01',
+  `ref_debut_agenda_ID` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
+  `ref_fin_agenda_ID` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID_remplace`)
+) ENGINE=MyISAM  AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+CREATE TABLE  IF NOT EXISTS `cdt_niveau` (
+  `ID_niv` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `nom_niv` varchar(255) NOT NULL DEFAULT '',
+  `commentaire_niv` text,
+  PRIMARY KEY (`ID_niv`)
+) ENGINE=MyISAM  AUTO_INCREMENT=1  CHARACTER SET latin1;
+
+CREATE TABLE  IF NOT EXISTS `cdt_niveau_classe` (
+  `ID_niv_classe` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `niv_ID` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `classe_ID` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `groupe_ID` smallint(5) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID_niv_classe`)
+) ENGINE=MyISAM  AUTO_INCREMENT=1  CHARACTER SET latin1;
+
+
+CREATE TABLE IF NOT EXISTS `cdt_archive_association` (
+  `ID_assoc` smallint(5)  NOT NULL AUTO_INCREMENT,
+  `prof_ID` smallint(5) NOT NULL,
+  `classe_ID` smallint(5) NOT NULL,
+  `gic_ID` smallint(5) NOT NULL,
+  `matiere_ID` smallint(5) NOT NULL,
+  `NumArchive` smallint(5) NOT NULL,
+  `classe_ID_archive` smallint(5) NOT NULL,
+  `gic_ID_archive` smallint(5) NOT NULL,
+  `matiere_ID_archive` smallint(5) NOT NULL,
+  PRIMARY KEY (`ID_assoc`)
+) ENGINE=MyISAM AUTO_INCREMENT=1  CHARACTER SET latin1 ;
+
+
+CREATE TABLE IF NOT EXISTS `ele_absent` (
+  `ID` int(10) unsigned NOT NULL auto_increment,
+  `classe_ID` smallint(5) unsigned default NULL,
+  `classe` varchar(50) default NULL,
+  `groupe` varchar(50) default NULL,
+  `heure` tinyint(4) default NULL,
+  `heure_debut` varchar(50) default NULL,
+  `heure_fin` varchar(50) default NULL,
+  `code_date` varchar(255) default NULL,
+  `salle` varchar(50) default NULL,
+  `jour_pointe` varchar(50) default NULL,
+  `eleve_ID` smallint(4) default NULL,
+  `prof_ID` tinyint(4) default NULL,
+  `motif` varchar(20) default NULL,
+  `vie_sco_statut` enum('Y','N') default 'N',
+  `retard` enum('O','N') default 'N',
+  `perso1` enum('O','N') default 'N',
+  `perso2` enum('O','N') default 'N',
+  `perso3` enum('O','N') default 'N',
+  `Ds` varchar(1) default NULL,
+  `date` varchar(8) default NULL,
+  `heure_saisie` varchar(10) default NULL,
+  `details` varchar(255) default NULL,
+  `absent` enum('Y','N') default 'N',
+  `retard_V` enum('Y','N') default 'N',
+  `pbCarnet` enum('Y','N') default 'N',
+  `retard_Nv` enum('Y','N') default 'N',
+  `signature` enum('Y','N') NOT NULL default 'N',
+  `solde` varchar(32) default 'N',
+  `surcarnet` varchar(32) default 'N',
+  `annule` varchar(32) default 'N',
+  PRIMARY KEY  (`ID`)
+) ENGINE=MyISAM  ;
+
+CREATE TABLE IF NOT EXISTS `ele_gic` (
+  `ID_ele_gic` smallint(10) unsigned NOT NULL auto_increment,
+  `ID_ele` smallint(5) unsigned NOT NULL default '0',
+  `ID_gic` smallint(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`ID_ele_gic`)
+) ENGINE=MyISAM  ;
+
+CREATE TABLE IF NOT EXISTS `ele_liste` (
+  `ID_ele` smallint(4) unsigned NOT NULL auto_increment,
+  `nom_ele` varchar(50) NOT NULL,
+  `prenom_ele` varchar(50) NOT NULL,
+  `classe_ele` varchar(5) NOT NULL,
+  `groupe_ID_ele` smallint(4) NOT NULL default '1',
+  `groupe_ele` varchar(50) NOT NULL default 'Classe entière',
+  PRIMARY KEY  (`ID_ele`)
+) ENGINE=MyISAM  ;
+
+CREATE TABLE IF NOT EXISTS `ele_present` (
+  `ID` smallint(10) unsigned NOT NULL auto_increment,
+  `classe_ID` smallint(5) unsigned default NULL,
+  `heure_debut` varchar(20) default NULL,
+  `heure_fin` varchar(20) default NULL,
+  `salle` varchar(20) default NULL,
+  `eleve_ID` smallint(4) default NULL,
+  `prof_ID` smallint(4) default NULL,
+  `travail` varchar(100) default NULL,
+  `date_heure` timestamp NOT NULL ,
+  PRIMARY KEY  (`ID`)
+) ENGINE=MyISAM  ;

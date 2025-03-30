@@ -1,0 +1,5 @@
+#Par sécurité aprés installation, il est préférable de renommer ce dossier install
+#Vous pouvez aussi en interdire l'accès. (pour plus d'infos, taper htaccess dans Google)
+#Dans ce cas, il faudra renommer ce fichier en .htaccess (ne pas oublier le point)
+#Enlever le "#" au début de la ligne ci-dessous pour interdire l'accès à ce dossier
+#Deny from all

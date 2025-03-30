@@ -1,0 +1,8 @@
+<?php
+header('Content-Type: text/html; charset=iso-8859-1');
+ $hostname_conn_cahier_de_texte = 'localhost';
+ $database_conn_cahier_de_texte = 'cahier_de_texte';
+ $username_conn_cahier_de_texte = 'root';
+ $password_conn_cahier_de_texte = '';
+ $conn_cahier_de_texte = mysqli_connect($hostname_conn_cahier_de_texte, $username_conn_cahier_de_texte, $password_conn_cahier_de_texte) or die(mysqli_connect_errno());
+?>
